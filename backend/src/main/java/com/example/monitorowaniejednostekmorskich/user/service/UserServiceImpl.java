@@ -18,6 +18,11 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
+    public void createNewUser(String username, String nonEncodedPassword) {
+
+    }
+
+    @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         var userEntity = userRepo.findByUsername(username)
                 .orElseThrow(EntityNotFoundException::new);
