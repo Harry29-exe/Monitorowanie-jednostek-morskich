@@ -18,11 +18,10 @@ public class TrackedArea {
     @GeneratedValue
     private @NotNull UUID publicId;
 
-    @Embedded
-    private @NotNull Point from;
-
-    @Embedded
-    private @NotNull Point to;
+    private Double fromX;
+    private Double fromY;
+    private Double toX;
+    private Double toY;
 
     @ManyToOne
     @JoinColumn(name = "monitored_by", nullable = false)

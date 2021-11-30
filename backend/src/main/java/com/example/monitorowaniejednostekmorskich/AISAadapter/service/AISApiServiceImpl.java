@@ -14,6 +14,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.net.URI;
@@ -24,17 +25,20 @@ import java.util.Date;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
+@Service
 public class AISApiServiceImpl implements AISApiService {
     private final String apiKey;
-    private AtomicReference<String> accessToken;
+    private final AtomicReference<String> accessToken = new AtomicReference<>();
     private final RestTemplate template = new RestTemplate();
 
     private List<CurrentShipInfoDTO> currentShips = new ArrayList<>();
 
-    private static final Integer TEN_MINUTES = 60 * 10 * 1000;
+    private static final Integer TEN_MINUTES = 600_000;
 
-    public AISApiServiceImpl(@Value("${AIS.secret}") String apiKey) {
-        this.apiKey = apiKey;
+    public AISApiServiceImpl(@Value("${AIS.token}") String apiKey) {
+//        this.apiKey = apiKey;
+        this.apiKey = "";
+        accessToken.set(apiKey);
         this.fetchCurrentShips();
     }
 
@@ -48,20 +52,22 @@ public class AISApiServiceImpl implements AISApiService {
         throw  new NotYetImplementedException();
     }
 
-    @Scheduled(fixedDelay = TEN_MINUTES)
+    @Scheduled(fixedDelay = 600_000)
     public void fetchCurrentShips() {
-        this.currentShips = fetchShipFromArea(new AreaDTO(71.815, 34.36, 63.568, -0.791));
+        this.currentShips = fetchShipFromArea(new AreaDTO(34.36, 71.815,   -0.791, 63.568));
     }
 
     private List<CurrentShipInfoDTO> fetchShipFromArea(AreaDTO area) {
         HttpHeaders headers = new HttpHeaders();
-        headers.add("Authorization", "Bearer " + accessToken);
+        System.out.println(accessToken.get());
+        headers.add("Authorization", "Bearer " + accessToken.get());
         HttpEntity httpEntity = new HttpEntity(headers);
 
         ResponseEntity<ShipTrackAIS[]> response = template.exchange(
-                "https://www.barentswatch.no/bwapi/v2/geodata/ais/openpositions?" +
-                        "Xmin="+area.getFromX()+"&Xmax="+area.getToX()+
-                        "&Ymin="+area.getFromY()+"&Ymax="+area.getToY(),
+//                "https://www.barentswatch.no/bwapi/v2/geodata/ais/openpositions?" +
+//                        "Xmin="+area.getFromX()+"&Xmax="+area.getToX()+
+//                        "&Ymin="+area.getFromY()+"&Ymax="+area.getToY(),
+                "https://www.barentswatch.no/bwapi/v2/geodata/ais/openpositions?Xmin=10.09094&Xmax=10.67047&Ymin=63.3989&Ymax=63.58645",
                 HttpMethod.GET,
                 httpEntity,
                 ShipTrackAIS[].class

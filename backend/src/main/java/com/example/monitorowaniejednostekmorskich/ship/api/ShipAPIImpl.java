@@ -5,9 +5,11 @@ import com.example.monitorowaniejednostekmorskich.AISAadapter.service.AISApiServ
 import com.example.monitorowaniejednostekmorskich.ship.api.responses.GetShipHistoryResponse;
 import com.example.monitorowaniejednostekmorskich.ship.dto.ShipWithLocationDTO;
 import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.util.List;
 
+@RestControllerAdvice
 public class ShipAPIImpl implements ShipAPI {
     private final AISApiService aisService;
 
