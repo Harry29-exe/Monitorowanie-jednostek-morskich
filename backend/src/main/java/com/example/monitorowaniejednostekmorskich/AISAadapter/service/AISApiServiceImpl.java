@@ -54,7 +54,7 @@ public class AISApiServiceImpl implements AISApiService {
 
     @Scheduled(fixedDelay = 600_000)
     public void fetchCurrentShips() {
-        this.currentShips = fetchShipFromArea(new AreaDTO(34.36, 71.815,   -0.791, 63.568));
+        this.currentShips = fetchShipFromArea(new AreaDTO(-0.79, 63.56, 34.36, 71.81 ));
     }
 
     private List<CurrentShipInfoDTO> fetchShipFromArea(AreaDTO area) {
@@ -64,10 +64,10 @@ public class AISApiServiceImpl implements AISApiService {
         HttpEntity httpEntity = new HttpEntity(headers);
 
         ResponseEntity<ShipTrackAIS[]> response = template.exchange(
-//                "https://www.barentswatch.no/bwapi/v2/geodata/ais/openpositions?" +
-//                        "Xmin="+area.getFromX()+"&Xmax="+area.getToX()+
-//                        "&Ymin="+area.getFromY()+"&Ymax="+area.getToY(),
-                "https://www.barentswatch.no/bwapi/v2/geodata/ais/openpositions?Xmin=10.09094&Xmax=10.67047&Ymin=63.3989&Ymax=63.58645",
+                "https://www.barentswatch.no/bwapi/v2/geodata/ais/openpositions?" +
+                        "Xmin="+area.getFromX()+"&Xmax="+area.getToX()+
+                        "&Ymin="+area.getFromY()+"&Ymax="+area.getToY(),
+//                "https://www.barentswatch.no/bwapi/v2/geodata/ais/openpositions?Xmin=10.09094&Xmax=10.67047&Ymin=63.3989&Ymax=63.58645",
                 HttpMethod.GET,
                 httpEntity,
                 ShipTrackAIS[].class
