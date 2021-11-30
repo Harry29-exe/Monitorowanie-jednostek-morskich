@@ -1,32 +1,16 @@
 import * as React from "react"
 import {
   ChakraProvider,
-  Box,
-  Text,
-  Link,
-  VStack,
-  Code,
-  Grid,
   theme,
+  Center,
 } from "@chakra-ui/react"
-import { ColorModeSwitcher } from "./ColorModeSwitcher"
-import { Logo } from "./Logo"
-import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet"
+import MapComponent from "./components/MapComponent"
 
 export const App = () => (
   <ChakraProvider theme={theme}>
-    <MapContainer center={[51.505, -0.09]} zoom={13} scrollWheelZoom={false} style={{height: "200px", width: "400px"}}>
-      <TileLayer
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-      />
-      <Marker position={[51.505, -0.09]}>
-        <Popup>
-          A pretty CSS3 popup. <br /> Easily customizable.
-        </Popup>
-      </Marker>
-    </MapContainer>
-
+    <Center w="100vw" h="100vh">
+      <MapComponent/>
+    </Center>
   </ChakraProvider>
 )
 
