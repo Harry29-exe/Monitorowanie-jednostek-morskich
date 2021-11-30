@@ -1,5 +1,6 @@
 package com.example.monitorowaniejednostekmorskich.ship.api;
 
+import com.example.monitorowaniejednostekmorskich.AISAadapter.dto.CurrentShipInfoDTO;
 import com.example.monitorowaniejednostekmorskich.ship.api.responses.GetShipHistoryResponse;
 import com.example.monitorowaniejednostekmorskich.ship.dto.ShipDTO;
 import com.example.monitorowaniejednostekmorskich.ship.dto.ShipWithLocationDTO;
@@ -10,6 +11,9 @@ import java.util.List;
 
 @RequestMapping("/ships/")
 public interface ShipAPI {
+
+    @GetMapping("all")
+    List<CurrentShipInfoDTO> getAllShips();
 
     @PostMapping("history/{shipId}")
     GetShipHistoryResponse getShipHistory(@PathVariable Long shipId);
