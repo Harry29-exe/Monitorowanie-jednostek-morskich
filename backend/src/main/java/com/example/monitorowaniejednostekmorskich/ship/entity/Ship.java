@@ -5,9 +5,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.lang.NonNull;
+import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
+import javax.validation.constraints.Null;
 import java.util.Set;
+import java.util.UUID;
 
 @Entity
 @Getter
@@ -19,17 +22,20 @@ public class Ship {
     @GeneratedValue
     private @NonNull Long id;
 
+    @Column(unique = true)
+    private @NonNull UUID publicId;
+
     @Column(nullable = false, updatable = false)
-    private Integer mmsi;
+    private @NonNull Integer mmsi;
 
     @Column
-    private String shipType;
+    private @Nullable String shipType;
 
     @Column
-    private String name;
+    private @Nullable String name;
 
     @Column
-    private Boolean stillTracked;
+    private @NonNull Boolean stillTracked;
 
     @OneToMany(mappedBy = "ship")
     private Set<ShipLocalization> localizations;
@@ -38,4 +44,19 @@ public class Ship {
     @JoinColumn(name = "tracker_id")
     private UserEntity trackedBy;
 
+    public Ship(@NonNull Integer mmsi,
+                @Nullable String shipType,
+                @Nullable String name,
+                UserEntity trackedBy) {
+        this.mmsi = mmsi;
+        this.shipType = shipType;
+        this.name = name;
+        this.trackedBy = trackedBy;
+        stillTracked = true;
+    }
+
+    public Ship(@NonNull Integer mmsi, UserEntity trackedBy) {
+        this.mmsi = mmsi;
+        this.trackedBy = trackedBy;
+    }
 }

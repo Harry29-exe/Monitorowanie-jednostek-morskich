@@ -14,7 +14,6 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
-@RequiredArgsConstructor
 public class UserEntity {
 
     @Id
@@ -30,4 +29,8 @@ public class UserEntity {
     @OneToMany(mappedBy = "trackedBy")
     private Set<Ship> trackedShips;
 
+    public UserEntity(@NonNull String username, @NonNull String password) {
+        this.username = username;
+        this.password = password;
+    }
 }

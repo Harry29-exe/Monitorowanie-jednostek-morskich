@@ -4,6 +4,7 @@ import com.example.monitorowaniejednostekmorskich.auth.api.dto.LoginRequest;
 import com.example.monitorowaniejednostekmorskich.auth.api.dto.RegisterRequest;
 import com.example.monitorowaniejednostekmorskich.auth.service.JwtService;
 import com.example.monitorowaniejednostekmorskich.config.CorsAddresses;
+import com.example.monitorowaniejednostekmorskich.user.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -18,10 +19,12 @@ import javax.validation.Valid;
 public class AuthController {
     private final JwtService jwtService;
     private final AuthenticationManager authManager;
+    private final UserService userService;
 
-    public AuthController(JwtService jwtService, AuthenticationManager authManager) {
+    public AuthController(JwtService jwtService, AuthenticationManager authManager, UserService userService) {
         this.jwtService = jwtService;
         this.authManager = authManager;
+        this.userService = userService;
     }
 
     @GetMapping("/login")
@@ -40,7 +43,7 @@ public class AuthController {
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.OK)
     public void register(@RequestBody @Valid RegisterRequest request) {
-
+        userService.createNewUser(request.getUsername(), request.getPassword());
     }
 
 
