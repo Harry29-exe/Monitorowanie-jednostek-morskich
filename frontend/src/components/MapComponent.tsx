@@ -2,6 +2,7 @@ import React, {useEffect, useState } from 'react';
 import {LayersControlEvent, LeafletEvent, LeafletMouseEvent, LocationEvent, Map as LeafletMap} from "leaflet";
 import {MapContainer, Marker, Popup, TileLayer } from 'react-leaflet';
 import {Box, VStack } from '@chakra-ui/react';
+import fetchAllShips, {CurrentShipInfo} from "../logic/ShipFetcher";
 
 interface Coords {
   x: number;
@@ -11,7 +12,11 @@ interface Coords {
 const MapComponent = () => {
   const [map, setMap] = useState<LeafletMap>();
   const [coords, setCoords] = useState<{from: Coords, to: Coords}>();
+  const [ships, setShips] = useState<CurrentShipInfo[]>();
 
+  useEffect(() => {
+    fetchAllShips().then(responseBody => setShips(responseBody))
+  }, []);
 
   useEffect(() => {
     if(!map) return;
@@ -48,6 +53,17 @@ const MapComponent = () => {
             A pretty CSS3 popup. <br /> Easily customizable.
           </Popup>
         </Marker>
+
+        {ships &&
+          ships.map(ship => (
+            <Marker position={[ship.currentLocation.y, ship.currentLocation.x]} key={ship.mmsi}>
+              <Popup>
+                {ship.name}<br/>
+                {ship.mmsi}
+              </Popup>
+            </Marker>
+          ))
+        }
 
       </MapContainer>
       <Box>{`from: x: ${coords?.from.x}, y: ${coords?.from.y}`}</Box>

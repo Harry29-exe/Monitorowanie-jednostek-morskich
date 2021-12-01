@@ -1,6 +1,7 @@
 package com.example.monitorowaniejednostekmorskich.ship.api;
 
 import com.example.monitorowaniejednostekmorskich.AISAadapter.dto.CurrentShipInfoDTO;
+import com.example.monitorowaniejednostekmorskich.config.CorsAddresses;
 import com.example.monitorowaniejednostekmorskich.ship.api.responses.GetShipHistoryResponse;
 import com.example.monitorowaniejednostekmorskich.ship.dto.ShipDTO;
 import com.example.monitorowaniejednostekmorskich.ship.dto.ShipWithLocationDTO;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin(origins = CorsAddresses.FRONTEND_ADDRESS)
 @RequestMapping("/ships/")
 public interface ShipAPI {
 
