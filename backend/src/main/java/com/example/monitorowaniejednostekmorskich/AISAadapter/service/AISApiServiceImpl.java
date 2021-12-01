@@ -5,10 +5,9 @@ import com.example.monitorowaniejednostekmorskich.AISAadapter.dto.ShipTrackAIS;
 import com.example.monitorowaniejednostekmorskich.ship.ShipTypeConverter;
 import com.example.monitorowaniejednostekmorskich.ship.dto.AreaDTO;
 import com.example.monitorowaniejednostekmorskich.ship.dto.LocationDTO;
-import com.example.monitorowaniejednostekmorskich.ship.dto.ShipDTO;
-import org.hibernate.cfg.NotYetImplementedException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
+import org.springframework.lang.Nullable;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
@@ -49,8 +48,12 @@ public class AISApiServiceImpl implements AISApiService {
     }
 
     @Override
-    public ShipDTO getShip(Integer mmsi) {
-        throw  new NotYetImplementedException();
+    public @Nullable
+    CurrentShipInfoDTO getShip(Integer mmsi) {
+        return currentShips.stream()
+                .filter(s -> s.getMmsi().equals(mmsi))
+                .findFirst()
+                .orElse(null);
     }
 
     @Scheduled(initialDelay = 600_000, fixedDelay = 600_000)

@@ -1,8 +1,11 @@
 package com.example.monitorowaniejednostekmorskich.ship.services;
 
+import com.example.monitorowaniejednostekmorskich.AISAadapter.service.AISApiService;
 import com.example.monitorowaniejednostekmorskich.ship.dto.ShipDTO;
 import com.example.monitorowaniejednostekmorskich.ship.dto.ShipWithLocationDTO;
 import com.example.monitorowaniejednostekmorskich.ship.entity.Ship;
+import com.example.monitorowaniejednostekmorskich.ship.entity.ShipLocalization;
+import com.example.monitorowaniejednostekmorskich.ship.repositories.ShipLocationRepository;
 import com.example.monitorowaniejednostekmorskich.ship.repositories.ShipRepository;
 import com.example.monitorowaniejednostekmorskich.user.repositories.UserRepository;
 import org.springframework.stereotype.Service;
@@ -16,10 +19,14 @@ import java.util.List;
 public class ShipServiceImpl implements ShipService {
     private final ShipRepository shipRepo;
     private final UserRepository userRepo;
+    private final AISApiService aisService;
+    private final ShipLocationRepository shipLocationRepo;
 
-    public ShipServiceImpl(ShipRepository shipRepository, UserRepository userRepo) {
+    public ShipServiceImpl(ShipRepository shipRepository, UserRepository userRepo, AISApiService aisService, ShipLocationRepository shipLocationRepo) {
         this.shipRepo = shipRepository;
         this.userRepo = userRepo;
+        this.aisService = aisService;
+        this.shipLocationRepo = shipLocationRepo;
     }
 
     @Override
@@ -36,8 +43,23 @@ public class ShipServiceImpl implements ShipService {
     public void addNewTackedShip(String username, Integer mmsi) {
         var userEntity = userRepo.findByUsername(username)
                 .orElseThrow(EntityNotFoundException::new);
-        var ship = new Ship(mmsi, userEntity);
-        shipRepo.save(ship);
+        var currentShip = aisService.getShip(mmsi);
+
+        if (currentShip == null) {
+            Ship ship = new Ship(mmsi, userEntity);
+            shipRepo.save(ship);
+        } else {
+            Ship ship = new Ship(mmsi, currentShip.getType(), currentShip.getName(), userEntity);
+            shipRepo.saveAndFlush(ship);
+
+            ShipLocalization localization = new ShipLocalization(
+                    currentShip.getCurrentLocation().getTime(),
+                    currentShip.getCurrentLocation().getX(),
+                    currentShip.getCurrentLocation().getY(),
+                    ship
+            );
+            shipLocationRepo.save(localization);
+        }
     }
 
     @Override

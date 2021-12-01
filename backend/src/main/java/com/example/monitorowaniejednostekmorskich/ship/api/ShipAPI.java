@@ -3,7 +3,6 @@ package com.example.monitorowaniejednostekmorskich.ship.api;
 import com.example.monitorowaniejednostekmorskich.AISAadapter.dto.CurrentShipInfoDTO;
 import com.example.monitorowaniejednostekmorskich.config.CorsAddresses;
 import com.example.monitorowaniejednostekmorskich.ship.api.responses.GetShipHistoryResponse;
-import com.example.monitorowaniejednostekmorskich.ship.dto.ShipDTO;
 import com.example.monitorowaniejednostekmorskich.ship.dto.ShipWithLocationDTO;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -24,9 +23,9 @@ public interface ShipAPI {
     List<ShipWithLocationDTO> getTrackedShips(Authentication auth);
 
     @DeleteMapping("tracking/{shipId}")
-    void stopTrackingShip(@PathVariable Long shipId);
+    void stopTrackingShip(@PathVariable Long shipId, Authentication auth);
 
     @PostMapping("tracking/{shipMMSI}")
-    void startTrackingShip(@PathVariable Integer shipMMSI);
+    void startTrackingShip(@PathVariable Integer shipMMSI, Authentication auth);
 
 }

@@ -40,12 +40,16 @@ public class ShipAPIImpl implements ShipAPI {
     }
 
     @Override
-    public void stopTrackingShip(Long shipId) {
+    public void stopTrackingShip(Long shipId, Authentication auth) {
 
     }
 
     @Override
-    public void startTrackingShip(Integer shipMMSI) {
-
+    public void startTrackingShip(Integer shipMMSI, Authentication auth) {
+        if (auth instanceof UsernamePasswordAuthenticationToken upAuth) {
+            shipService.addNewTackedShip(upAuth.getName(), shipMMSI);
+        } else {
+            throw new IllegalStateException();
+        }
     }
 }
