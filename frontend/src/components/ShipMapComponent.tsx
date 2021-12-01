@@ -1,15 +1,19 @@
 import React, {useEffect, useState } from 'react';
-import {LayersControlEvent, LeafletEvent, LeafletMouseEvent, LocationEvent, Map as LeafletMap} from "leaflet";
+import {DivIcon, LayersControlEvent, LeafletEvent, LeafletMouseEvent, LocationEvent, Map as LeafletMap} from "leaflet";
 import {MapContainer, Marker, Popup, TileLayer } from 'react-leaflet';
 import {Box, VStack } from '@chakra-ui/react';
-import fetchAllShips, {CurrentShipInfo} from "../logic/ShipFetcher";
+import fetchAllShips from "../logic/fetchers/ShipFetcher";
+import {CurrentShipInfo} from "../logic/dto/CurrentShipInfo";
+import {shipMarkerReducer} from "../logic/ShipMarkerReducer";
+import {Area} from "../logic/dto/Area";
+import {ShipMarker} from "../logic/dto/ShipMarker";
 
 interface Coords {
   x: number;
   y: number;
 }
 
-const MapComponent = () => {
+const ShipMapComponent = () => {
   const [map, setMap] = useState<LeafletMap>();
   const [coords, setCoords] = useState<{from: Coords, to: Coords}>();
   const [ships, setShips] = useState<CurrentShipInfo[]>();
@@ -36,6 +40,11 @@ const MapComponent = () => {
     }
   }, [map]);
 
+  let markers: ShipMarker[] = [];
+  if(!!ships && !!coords) {
+    markers = shipMarkerReducer(ships, new Area(coords.from.x, coords.from.y, coords.to.x, coords.to.y))
+  }
+
   return (
     <VStack>
       <MapContainer
@@ -43,27 +52,24 @@ const MapComponent = () => {
         scrollWheelZoom={true} style={{height: "500px", width: "800px"}}
         whenCreated={map => setMap(map)}
       >
+
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
 
-        <Marker position={[51.505, -0.09]}>
-          <Popup>
-            A pretty CSS3 popup. <br /> Easily customizable.
-          </Popup>
-        </Marker>
+        {markers.map(m => (
+          <Marker position={[m.y, m.x]} key={`${m.y}, ${m.x}`}
+                  icon={new DivIcon({html: createMarker(m.ships.length), iconSize: [0,0]})}
+          >
+            <Popup>
+              {
+                m.toMarkerString()
+              }
+            </Popup>
+          </Marker>
+        ))}
 
-        {ships &&
-          ships.map(ship => (
-            <Marker position={[ship.currentLocation.y, ship.currentLocation.x]} key={ship.mmsi}>
-              <Popup>
-                {ship.name}<br/>
-                {ship.mmsi}
-              </Popup>
-            </Marker>
-          ))
-        }
 
       </MapContainer>
       <Box>{`from: x: ${coords?.from.x}, y: ${coords?.from.y}`}</Box>
@@ -72,4 +78,19 @@ const MapComponent = () => {
     );
 };
 
-export default MapComponent;
+function createMarker(shipsCount: number): HTMLElement {
+  let size = 12;
+  let el = document.createElement("div") as HTMLDivElement;
+  el.style["borderRadius"] = "100%";
+  el.style["marginLeft"] = `${-size/2}px`;
+  el.style["marginTop"] = `${-size/2}px`;
+  el.style["width"] = `${size}px`;
+  el.style["height"] = `${size}px`;
+  el.style["background"] = shipsCount === 1? "blue":
+    shipsCount > 20? "DarkViolet": shipsCount > 5? "yellow": "green";
+  el.style["border"] = "1px solid black"
+
+  return el;
+}
+
+export default ShipMapComponent;

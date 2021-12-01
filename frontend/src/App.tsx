@@ -4,12 +4,12 @@ import {
   theme,
   Center,
 } from "@chakra-ui/react"
-import MapComponent from "./components/MapComponent"
+import ShipMapComponent from "./components/ShipMapComponent"
 
 export const App = () => (
   <ChakraProvider theme={theme}>
     <Center w="100vw" h="100vh">
-      <MapComponent/>
+      <ShipMapComponent/>
     </Center>
   </ChakraProvider>
 )
