@@ -28,6 +28,7 @@ public class AuthController {
         this.userService = userService;
     }
 
+    @CrossOrigin(value = CorsAddresses.FRONTEND_ADDRESS, exposedHeaders = {"*", "Authorization"})
     @PostMapping("/login")
     public void login(@RequestBody @Valid LoginRequest request, HttpServletResponse response) {
         try {
