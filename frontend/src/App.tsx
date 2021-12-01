@@ -3,13 +3,16 @@ import {
   ChakraProvider,
   theme,
   Center,
+  Box,
 } from "@chakra-ui/react"
 import ShipMapComponent from "./components/ShipMapComponent"
+import ShipModule from "./components/ShipModule";
 
 export const App = () => (
   <ChakraProvider theme={theme}>
+    <Box></Box>
     <Center w="100vw" h="100vh">
-      <ShipMapComponent/>
+      <ShipModule/>
     </Center>
   </ChakraProvider>
 )

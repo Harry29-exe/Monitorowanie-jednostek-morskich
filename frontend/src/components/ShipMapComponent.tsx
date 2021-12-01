@@ -1,8 +1,7 @@
 import React, {useEffect, useState } from 'react';
 import {DivIcon, LayersControlEvent, LeafletEvent, LeafletMouseEvent, LocationEvent, Map as LeafletMap} from "leaflet";
 import {MapContainer, Marker, Popup, TileLayer } from 'react-leaflet';
-import {Box, VStack } from '@chakra-ui/react';
-import fetchAllShips from "../logic/fetchers/ShipFetcher";
+import {Box, Divider, VStack } from '@chakra-ui/react';
 import {CurrentShipInfo} from "../logic/dto/CurrentShipInfo";
 import {shipMarkerReducer} from "../logic/ShipMarkerReducer";
 import {Area} from "../logic/dto/Area";
@@ -13,37 +12,25 @@ interface Coords {
   y: number;
 }
 
-const ShipMapComponent = () => {
+const ShipMapComponent = (props: {ships: CurrentShipInfo []}) => {
   const [map, setMap] = useState<LeafletMap>();
-  const [coords, setCoords] = useState<{from: Coords, to: Coords}>();
-  const [ships, setShips] = useState<CurrentShipInfo[]>();
-
-  useEffect(() => {
-    fetchAllShips().then(responseBody => setShips(responseBody))
-  }, []);
+  const [markers, setMarkers] = useState<ShipMarker[]>([]);
 
   useEffect(() => {
     if(!map) return;
-    const updateCoords = (e: LeafletEvent) => {
+    const updateMarkers = () => {
       let bounds = map.getBounds();
       let topLeft = bounds.getNorthWest();
       let bottomRight = bounds.getSouthEast();
-      setCoords({
-        from: {x: topLeft.lat, y: topLeft.lng},
-        to: {x: bottomRight.lat, y: bottomRight.lng}
-      });
+      let currentMarkers = shipMarkerReducer(props.ships, new Area(topLeft.lat, topLeft.lng, bottomRight.lat, bottomRight.lng));
+      setMarkers(currentMarkers);
     }
-    map.addEventListener("moveend", updateCoords);
+    map.addEventListener("zoomend", updateMarkers);
     return () => {
       if(!map) return;
-      map.removeEventListener("moveend", updateCoords);
+      map.removeEventListener("zoomend", updateMarkers);
     }
-  }, [map]);
-
-  let markers: ShipMarker[] = [];
-  if(!!ships && !!coords) {
-    markers = shipMarkerReducer(ships, new Area(coords.from.x, coords.from.y, coords.to.x, coords.to.y))
-  }
+  }, [map, props.ships]);
 
   return (
     <VStack>
@@ -59,27 +46,34 @@ const ShipMapComponent = () => {
         />
 
         {markers.map(m => (
-          <Marker position={[m.y, m.x]} key={`${m.y}, ${m.x}`}
+          <Marker position={[m.y, m.x]} key={m.toMarkerString()}
                   icon={new DivIcon({html: createMarker(m.ships.length), iconSize: [0,0]})}
           >
             <Popup>
-              {
-                m.toMarkerString()
-              }
+              <VStack maxH={"100px"} overflowY={"auto"}>
+                <Box fontSize={"14px"}>Ships in region:</Box>
+                <Box w="100%" borderBottom={"2px solid black"}/>
+                {m.ships.map(s => (
+                  <>
+                    <Box>{s.name}</Box>
+                    <Box>{s.mmsi}</Box>
+                    <Box w="100%" borderBottom={"2px solid black"}/>
+                  </>
+                ))
+                }
+              </VStack>
             </Popup>
           </Marker>
         ))}
 
 
       </MapContainer>
-      <Box>{`from: x: ${coords?.from.x}, y: ${coords?.from.y}`}</Box>
-      <Box>{`to: x: ${coords?.to.x}, y: ${coords?.to.y}`}</Box>
     </VStack>
     );
 };
 
 function createMarker(shipsCount: number): HTMLElement {
-  let size = 12;
+  let size = shipsCount === 1? 10: shipsCount > 20? 16: shipsCount > 5? 14: 12;
   let el = document.createElement("div") as HTMLDivElement;
   el.style["borderRadius"] = "100%";
   el.style["marginLeft"] = `${-size/2}px`;
@@ -87,7 +81,8 @@ function createMarker(shipsCount: number): HTMLElement {
   el.style["width"] = `${size}px`;
   el.style["height"] = `${size}px`;
   el.style["background"] = shipsCount === 1? "blue":
-    shipsCount > 20? "DarkViolet": shipsCount > 5? "yellow": "green";
+    shipsCount > 20? "rgb(115, 50, 168, 0.6)":
+      shipsCount > 5? "rgb(201, 209, 48, 0.8)": "rgb(48, 209, 61, 0.95)";
   el.style["border"] = "1px solid black"
 
   return el;
