@@ -2,15 +2,17 @@ package com.example.monitorowaniejednostekmorskich.ship.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
+import org.springframework.lang.Nullable;
 
-import java.util.UUID;
+import javax.validation.constraints.NotNull;
 
 @Data
 @AllArgsConstructor
 public class ShipWithLocationDTO {
 
-    private LocationDTO lastLocation;
+    private @NotNull ShipDTO shipDTO;
+    private @Nullable
+    LocationDTO lastLocation;
 
 }
 

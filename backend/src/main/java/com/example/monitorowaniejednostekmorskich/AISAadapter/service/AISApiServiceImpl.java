@@ -15,7 +15,10 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
 
 @Service
@@ -52,7 +55,7 @@ public class AISApiServiceImpl implements AISApiService {
 
     @Scheduled(initialDelay = 600_000, fixedDelay = 600_000)
     public void fetchCurrentShips() {
-        this.currentShips = fetchShipFromArea(new AreaDTO(-0.79, 63.56, 34.36, 71.81 ));
+        this.currentShips = fetchShipFromArea(new AreaDTO(-0.79, 50.0, 34.36, 71.81));
     }
 
     @Scheduled(initialDelay = 3_000_000, fixedDelay = 3_000_000)

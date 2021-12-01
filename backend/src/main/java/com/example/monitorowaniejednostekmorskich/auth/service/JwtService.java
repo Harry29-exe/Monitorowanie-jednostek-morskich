@@ -29,11 +29,11 @@ public class JwtService {
                 .sign(this.jwtAlgorithm);
     }
 
-    public void verify(String token) {
+    public String verify(String token) {
         var jwt = JWT.decode(token);
         try {
             var username = jwt.getClaim("sub").asString();
-            if(username.isBlank()) {
+            if (username.isBlank()) {
                 throw new IllegalArgumentException();
             }
             var verifier = JWT.require(jwtAlgorithm)
@@ -43,6 +43,7 @@ public class JwtService {
         } catch (JWTVerificationException ex) {
             throw new InvalidJwtTokeException();
         }
+        return jwt.getClaim("sub").asString();
     }
 
 }

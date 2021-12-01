@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
@@ -27,13 +28,13 @@ public class AuthController {
         this.userService = userService;
     }
 
-    @GetMapping("/login")
+    @PostMapping("/login")
     public void login(@RequestBody @Valid LoginRequest request, HttpServletResponse response) {
         try {
             var auth = authManager.authenticate(new UsernamePasswordAuthenticationToken(
                     request.getUsername(),
                     request.getPassword()));
-            var token = jwtService.createToken((String) auth.getPrincipal());
+            var token = jwtService.createToken(((User) auth.getPrincipal()).getUsername());
             response.addHeader("Authorization", token);
         } catch (Exception ex) {
             throw new BadCredentialsException("Bad username or password");

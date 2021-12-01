@@ -1,19 +1,18 @@
 package com.example.monitorowaniejednostekmorskich.ship.services;
 
 import com.example.monitorowaniejednostekmorskich.ship.dto.ShipDTO;
-import com.example.monitorowaniejednostekmorskich.ship.entity.Ship;
-import com.example.monitorowaniejednostekmorskich.user.dto.UserDTO;
+import com.example.monitorowaniejednostekmorskich.ship.dto.ShipWithLocationDTO;
 
 import java.util.List;
 
 public interface ShipService {
 
-    List<ShipDTO> getStillTrackedBy(UserDTO user);
+    List<ShipDTO> getUsersShips(String username);
 
-    List<ShipDTO> getAllUsersShips(UserDTO user);
+    List<ShipWithLocationDTO> getUsersStillTracked(String username);
 
-    void addNewTackedShip(UserDTO user, Integer mmsi);
+    void addNewTackedShip(String username, Integer mmsi);
 
-    void stopTracking(UserDTO user, Integer mmsi);
+    void stopTracking(String username, Integer mmsi);
 
 }

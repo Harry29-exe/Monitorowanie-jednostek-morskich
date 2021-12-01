@@ -4,6 +4,8 @@ import com.example.monitorowaniejednostekmorskich.AISAadapter.dto.CurrentShipInf
 import com.example.monitorowaniejednostekmorskich.AISAadapter.service.AISApiService;
 import com.example.monitorowaniejednostekmorskich.ship.api.responses.GetShipHistoryResponse;
 import com.example.monitorowaniejednostekmorskich.ship.dto.ShipWithLocationDTO;
+import com.example.monitorowaniejednostekmorskich.ship.services.ShipService;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -12,9 +14,11 @@ import java.util.List;
 @RestControllerAdvice
 public class ShipAPIImpl implements ShipAPI {
     private final AISApiService aisService;
+    private final ShipService shipService;
 
-    public ShipAPIImpl(AISApiService aisService) {
+    public ShipAPIImpl(AISApiService aisService, ShipService shipService) {
         this.aisService = aisService;
+        this.shipService = shipService;
     }
 
     @Override
@@ -29,7 +33,10 @@ public class ShipAPIImpl implements ShipAPI {
 
     @Override
     public List<ShipWithLocationDTO> getTrackedShips(Authentication auth) {
-        return null;
+        if (auth instanceof UsernamePasswordAuthenticationToken upAuth) {
+            return shipService.getUsersStillTracked(upAuth.getName());
+        }
+        throw new IllegalStateException();
     }
 
     @Override
