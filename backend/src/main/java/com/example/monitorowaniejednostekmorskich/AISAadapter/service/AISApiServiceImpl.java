@@ -6,28 +6,21 @@ import com.example.monitorowaniejednostekmorskich.ship.ShipTypeConverter;
 import com.example.monitorowaniejednostekmorskich.ship.dto.AreaDTO;
 import com.example.monitorowaniejednostekmorskich.ship.dto.LocationDTO;
 import com.example.monitorowaniejednostekmorskich.ship.dto.ShipDTO;
-import jdk.jshell.spi.ExecutionControl;
 import org.hibernate.cfg.NotYetImplementedException;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
 
 @Service
 public class AISApiServiceImpl implements AISApiService {
-    private final String apiKey;
+    private final AtomicReference<String> apiSecret = new AtomicReference<>();
     private final AtomicReference<String> accessToken = new AtomicReference<>();
     private final RestTemplate template = new RestTemplate();
 
@@ -35,10 +28,15 @@ public class AISApiServiceImpl implements AISApiService {
 
     private static final Integer TEN_MINUTES = 600_000;
 
-    public AISApiServiceImpl(@Value("${AIS.token}") String apiKey) {
-//        this.apiKey = apiKey;
-        this.apiKey = "";
-        accessToken.set(apiKey);
+    public AISApiServiceImpl(
+            @Value("${MJM_secret}")
+            String secret
+    ) {
+        if(secret == null || secret.isBlank()) {
+            throw new IllegalStateException("No secret in environment");
+        }
+        this.apiSecret.set(secret);
+        this.fetchAuthToken();
         this.fetchCurrentShips();
     }
 
@@ -52,14 +50,40 @@ public class AISApiServiceImpl implements AISApiService {
         throw  new NotYetImplementedException();
     }
 
-    @Scheduled(fixedDelay = 600_000)
+    @Scheduled(initialDelay = 600_000, fixedDelay = 600_000)
     public void fetchCurrentShips() {
         this.currentShips = fetchShipFromArea(new AreaDTO(-0.79, 63.56, 34.36, 71.81 ));
     }
 
+    @Scheduled(initialDelay = 3_000_000, fixedDelay = 3_000_000)
+    public void fetchAuthToken() {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+
+        MultiValueMap<String, String> body = new LinkedMultiValueMap<>();
+        body.add("client_id", "wojcikakamil@gmail.com:Backend");
+        body.add("scope", "api");
+        body.add("client_secret", this.apiSecret.get());
+        body.add("grant_type", "client_credentials");
+
+        HttpEntity entity = new HttpEntity(body, headers);
+        var response = template.exchange("https://id.barentswatch.no/connect/token",
+                HttpMethod.POST,
+                entity,
+                Map.class);
+        var responseBody = response.getBody();
+        if(responseBody == null) {
+            throw new IllegalStateException();
+        }
+        var token = responseBody.get("access_token");
+        if(token == null) {
+            throw  new IllegalStateException();
+        }
+        this.accessToken.set((String) token);
+    }
+
     private List<CurrentShipInfoDTO> fetchShipFromArea(AreaDTO area) {
         HttpHeaders headers = new HttpHeaders();
-        System.out.println(accessToken.get());
         headers.add("Authorization", "Bearer " + accessToken.get());
         HttpEntity httpEntity = new HttpEntity(headers);
 
