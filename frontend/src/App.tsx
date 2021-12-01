@@ -4,36 +4,35 @@ import {
   theme,
   Center,
   Box,
+  HStack,
+  Link,
 } from "@chakra-ui/react"
-import ShipMapComponent from "./components/ShipMapComponent"
 import ShipModule from "./components/ShipModule";
+import { useState } from "react";
+import UserModuleWrapper from "./components/user-module/UserModuleWrapper";
 
-export const App = () => (
-  <ChakraProvider theme={theme}>
-    <Box></Box>
-    <Center w="100vw" h="100vh">
-      <ShipModule/>
+export const App = () => {
+  const [page, setPage] = useState<"main" | "my">("main")
+
+  return (
+    <ChakraProvider theme={theme}>
+      <HStack w="100vw" h={"70px"} bg={"teal.600"} spacing={0} fontSize={"28px"} textAlign={"center"}>
+        <Link bg={page === "main"? "teal.700" : "teal.600"} px={8}
+              h={"100%"} onClick={() => setPage("main")}>
+          <Center h={"100%"}>Ship Monitoring</Center>
+        </Link>
+        <Link bg={page === "my"? "teal.700" : "teal.600"} px={8}
+              h={"100%"} onClick={() => setPage("my")}>
+          <Center h={"100%"}>My tracked Ships</Center>
+        </Link>
+      </HStack>
+      <Center w="100vw" h="calc(100vh - 70px)">
+
+        {page === "main"?
+          <ShipModule/>
+        :
+          <UserModuleWrapper/>
+        }
     </Center>
   </ChakraProvider>
-)
-
-//     <Box textAlign="center" fontSize="xl">
-//     <Grid minH="100vh" p={3}>
-//     <ColorModeSwitcher justifySelf="flex-end" />
-//     <VStack spacing={8}>
-//     <Logo h="40vmin" pointerEvents="none" />
-//     <Text>
-//     Edit <Code fontSize="xl">src/App.tsx</Code> and save to reload.
-// </Text>
-// <Link
-//     color="teal.500"
-//     href="https://chakra-ui.com"
-//     fontSize="2xl"
-//     target="_blank"
-//     rel="noopener noreferrer"
-// >
-//   Learn Chakra
-// </Link>
-// </VStack>
-// </Grid>
-// </Box>
+)}
