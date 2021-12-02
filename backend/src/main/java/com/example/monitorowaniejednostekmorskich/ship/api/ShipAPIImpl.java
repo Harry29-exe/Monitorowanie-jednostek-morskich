@@ -1,7 +1,7 @@
 package com.example.monitorowaniejednostekmorskich.ship.api;
 
 import com.example.monitorowaniejednostekmorskich.AISAadapter.dto.CurrentShipInfoDTO;
-import com.example.monitorowaniejednostekmorskich.AISAadapter.service.AISApiService;
+import com.example.monitorowaniejednostekmorskich.AISAadapter.service.AISService;
 import com.example.monitorowaniejednostekmorskich.ship.api.responses.GetShipHistoryResponse;
 import com.example.monitorowaniejednostekmorskich.ship.dto.ShipWithLocationDTO;
 import com.example.monitorowaniejednostekmorskich.ship.services.ShipService;
@@ -14,10 +14,10 @@ import java.util.UUID;
 
 @RestControllerAdvice
 public class ShipAPIImpl implements ShipAPI {
-    private final AISApiService aisService;
+    private final AISService aisService;
     private final ShipService shipService;
 
-    public ShipAPIImpl(AISApiService aisService, ShipService shipService) {
+    public ShipAPIImpl(AISService aisService, ShipService shipService) {
         this.aisService = aisService;
         this.shipService = shipService;
     }

@@ -1,6 +1,6 @@
 package com.example.monitorowaniejednostekmorskich.ship.services;
 
-import com.example.monitorowaniejednostekmorskich.AISAadapter.service.AISApiService;
+import com.example.monitorowaniejednostekmorskich.AISAadapter.service.AISService;
 import com.example.monitorowaniejednostekmorskich.ship.dto.LocationDTO;
 import com.example.monitorowaniejednostekmorskich.ship.dto.ShipDTO;
 import com.example.monitorowaniejednostekmorskich.ship.dto.ShipWithLocationDTO;
@@ -21,10 +21,10 @@ import java.util.UUID;
 public class ShipServiceImpl implements ShipService {
     private final ShipRepository shipRepo;
     private final UserRepository userRepo;
-    private final AISApiService aisService;
+    private final AISService aisService;
     private final ShipLocationRepository shipLocationRepo;
 
-    public ShipServiceImpl(ShipRepository shipRepository, UserRepository userRepo, AISApiService aisService, ShipLocationRepository shipLocationRepo) {
+    public ShipServiceImpl(ShipRepository shipRepository, UserRepository userRepo, AISService aisService, ShipLocationRepository shipLocationRepo) {
         this.shipRepo = shipRepository;
         this.userRepo = userRepo;
         this.aisService = aisService;

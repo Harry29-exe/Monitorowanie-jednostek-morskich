@@ -56,7 +56,7 @@ public class ShipRepositoryExtensionImpl implements ShipRepositoryExtension {
                     SELECT l
                     FROM ShipLocalization l
                     WHERE l.ship.id = :id
-                    ORDER BY l.time
+                    ORDER BY l.time DESC
                     """, ShipLocalization.class);
             locationQuery
                     .setMaxResults(1)

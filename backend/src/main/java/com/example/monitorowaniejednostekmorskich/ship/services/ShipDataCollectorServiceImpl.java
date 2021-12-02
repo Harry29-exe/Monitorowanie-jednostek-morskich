@@ -1,7 +1,7 @@
 package com.example.monitorowaniejednostekmorskich.ship.services;
 
 import com.example.monitorowaniejednostekmorskich.AISAadapter.dto.CurrentShipInfoDTO;
-import com.example.monitorowaniejednostekmorskich.AISAadapter.service.AISApiService;
+import com.example.monitorowaniejednostekmorskich.AISAadapter.service.AISService;
 import com.example.monitorowaniejednostekmorskich.ship.entity.ShipLocalization;
 import com.example.monitorowaniejednostekmorskich.ship.repositories.ShipLocationRepository;
 import com.example.monitorowaniejednostekmorskich.ship.repositories.ShipRepository;
@@ -18,7 +18,7 @@ public class ShipDataCollectorServiceImpl implements ShipDataCollectorService {
     private final ShipLocationRepository shipLocationRepo;
     @Autowired
     @Lazy
-    private AISApiService aisService;
+    private AISService aisService;
 
 
     public ShipDataCollectorServiceImpl(ShipRepository shipRepo, ShipLocationRepository shipLocationRepo) {

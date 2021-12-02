@@ -4,7 +4,7 @@ import com.example.monitorowaniejednostekmorskich.AISAadapter.dto.CurrentShipInf
 
 import java.util.List;
 
-public interface AISApiService {
+public interface AISService {
 
     List<CurrentShipInfoDTO> getAllShips();
 

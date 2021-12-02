@@ -22,7 +22,7 @@ import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
 
 @Service
-public class AISApiServiceImpl implements AISApiService {
+public class AISApiServiceImpl implements AISService {
     private final ShipDataCollectorService shipDataCollectorService;
     private final AtomicReference<String> apiSecret = new AtomicReference<>();
     private final AtomicReference<String> accessToken = new AtomicReference<>();
