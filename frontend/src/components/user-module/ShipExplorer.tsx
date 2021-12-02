@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   Box,
   Button,
@@ -14,8 +14,12 @@ import {
 import {ShipDTO} from "../../logic/dto/ships/ShipDTO";
 import {ArrowLeftIcon, ArrowRightIcon, MinusIcon, SmallCloseIcon, ViewIcon} from "@chakra-ui/icons";
 
-const ShipExplorer = (props: {ships: ShipDTO[]}) => {
+const ShipExplorer = (props: {
+  ships: ShipDTO[],
+  setSingleView: (shipId: string) => any,
+  setViewALL: () => any }) => {
   const [enabled, setEnabled] = useBoolean(true);
+  const [selected, setSelected] = useState<number>();
   const w = useBreakpointValue([250, 350, 400]);
 
   return (
@@ -27,8 +31,10 @@ const ShipExplorer = (props: {ships: ShipDTO[]}) => {
       >
         {
           props.ships.map(s => (
-            <>
-            <HStack spacing={10} alignSelf={"flex-start"} w={"100%"}>
+            <HStack spacing={10} alignSelf={"flex-start"} w={"100%"}
+                    onClick={() => props.setSingleView(s.publicId)}
+                    key={s.publicId}
+            >
               <VStack  alignItems={"flex-start"} flexGrow={4}>
                 <span>Ship name: {s.name}</span>
                 <span>Ship mmsi: {s.mmsi}</span>
@@ -36,7 +42,9 @@ const ShipExplorer = (props: {ships: ShipDTO[]}) => {
 
               <HStack>
                 <Tooltip label="stop tracking">
-                  <IconButton aria-label="" icon={<MinusIcon/>}/>
+                  <IconButton aria-label="" icon={<MinusIcon/>}
+                              onClick={() => props.setSingleView(s.publicId)}
+                  />
                 </Tooltip>
                 <Tooltip label="show history">
                   <IconButton aria-label="" icon={<ViewIcon/>}/>
@@ -44,8 +52,7 @@ const ShipExplorer = (props: {ships: ShipDTO[]}) => {
 
               </HStack>
             </HStack>
-            <Divider/>
-            </>
+
           ))
         }
       </VStack>

@@ -14,7 +14,7 @@ interface Coords {
   y: number;
 }
 
-const ShipMap = (props: {ships: CurrentShipInfo []}) => {
+const ShipMap = (props: {ships: CurrentShipInfo[]}) => {
   const [map, setMap] = useState<LeafletMap>();
   const [markers, setMarkers] = useState<ShipMarkerDTO[]>([]);
 

@@ -8,15 +8,44 @@ import ShipExplorer from "./ShipExplorer";
 import {Center, HStack} from "@chakra-ui/react";
 import {ShipData} from "../../logic/dto/ships/ShipData";
 import RegisterModal from "./RegisterModal";
+import fetchShipHistory from "../../logic/fetchers/FetchShipHistory";
 
 export interface Authentication {
   username: string;
   authToken: string;
 }
 
+enum Modes {
+  VIEW_ALL,
+  VIEW_SINGLE
+}
+
 const UserModuleWrapper = () => {
   const [auth, setAuth] = useState<Authentication | null>(null);
   const [shipsData, updateShips] = useState<ShipData[]>([]);
+  const [activeShip, setActiveShip] = useState<number>();
+  const [mode, setMode] = useState<Modes>(Modes.VIEW_ALL);
+
+  const updateShipsData = () => updateShips(shipsData.map(s => s))
+
+  const setModeToViewSingle = (shipId: string) => {
+    var ships = shipsData.filter(f => f.shipDTO.publicId === shipId);
+    if(ships.length > 0) {
+      if(ships[0].history) {
+        setActiveShip(ships[0].shipDTO.publicId);
+        setMode(Modes.VIEW_SINGLE);
+      } else if (!!auth) {
+        fetchShipHistory(auth.authToken, ships[0].shipDTO.publicId)
+          .then(history => {
+            ships[0].history = history.history;
+            updateShipsData();
+          })
+          .then(() => setMode(Modes.VIEW_SINGLE));
+      }
+    } else {
+      throw new Error();
+    }
+  }
 
   useEffect(() => {
     if(!auth) return;
@@ -38,8 +67,18 @@ const UserModuleWrapper = () => {
         </Center>
         :
         <>
-          <ShipExplorer ships={shipsData.map(s => s.shipDTO)}/>
-          <ShipMap ships={shipsData.map(s => CurrentShipInfo.from(s))}/>
+          <ShipExplorer ships={shipsData.map(s => s.shipDTO)}
+                        setSingleView={setModeToViewSingle}
+                        setViewALL={() => setMode(Modes.VIEW_ALL)}
+          />
+          {mode === Modes.VIEW_ALL?
+            <ShipMap ships={shipsData.map(s => CurrentShipInfo.from(s))}/>
+            :
+            <>
+              <h1>View single</h1>
+            <ShipMap ships={[]}/>
+            </>
+          }
         </>
       }
     </HStack>
