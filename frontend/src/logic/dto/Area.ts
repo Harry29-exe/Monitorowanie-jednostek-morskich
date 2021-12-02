@@ -11,4 +11,25 @@ export class Area {
     this.toX = toX;
     this.toY = toY;
   }
+
+  // public inBounds(x: number, y: number): boolean {
+  //
+  // }
+
+  get minX(): number {
+    return Math.min(this.fromX, this.toX);
+  }
+
+  get maxX(): number {
+    return Math.max(this.fromX, this.toX);
+  }
+
+  get minY(): number {
+    return Math.min(this.fromY, this.toY);
+  }
+
+  get maxY(): number {
+    return Math.max(this.fromY, this.toY);
+  }
+
 }

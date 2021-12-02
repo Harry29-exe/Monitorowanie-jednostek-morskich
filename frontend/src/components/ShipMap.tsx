@@ -3,10 +3,9 @@ import {DivIcon, Map as LeafletMap} from "leaflet";
 import {MapContainer, Marker, Polyline, Popup, TileLayer} from 'react-leaflet';
 import {Box, Center, VStack} from '@chakra-ui/react';
 import {CurrentShipInfo} from "../logic/dto/ships/CurrentShipInfo";
-import {shipMarkerReducer} from "../logic/map-related/ShipMarkerReducer";
+import {shipMarkerReducer, shipMarkerReducerSmallDistance} from "../logic/map-related/ShipMarkerReducer";
 import {Area} from "../logic/dto/Area";
 import {ShipMarkerDTO} from "../logic/dto/ShipMarkerDTO";
-import {createMarker} from "../logic/map-related/CreateMarker";
 import ShipMarker from './ShipMarker';
 import {LocationDTO} from "../logic/dto/LocationDTO";
 
@@ -22,11 +21,17 @@ const ShipMap = (props: {ships: CurrentShipInfo[], traces: LocationDTO[][]}) => 
   useEffect(() => {
     if(!map) return;
     const updateMarkers = () => {
+      let zoom = map.getZoom();
       let bounds = map.getBounds();
       let topLeft = bounds.getNorthWest();
       let bottomRight = bounds.getSouthEast();
-      let currentMarkers = shipMarkerReducer(props.ships, new Area(topLeft.lat, topLeft.lng, bottomRight.lat, bottomRight.lng));
-      setMarkers(currentMarkers);
+      let area = new Area(topLeft.lng, topLeft.lat, bottomRight.lng, bottomRight.lat);
+
+      if(zoom >= 10) {
+        setMarkers(shipMarkerReducerSmallDistance(props.ships, area))
+      } else {
+        setMarkers(shipMarkerReducer(props.ships, area));
+      }
     }
     map.addEventListener("zoomend", updateMarkers);
     return () => {
