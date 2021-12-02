@@ -1,11 +1,11 @@
-import {ShipDTO} from "./ShipDTO";
+import {ShipIdDTO} from "./ships/ShipIdDTO";
 
-export class ShipMarker {
-  public ships: ShipDTO[];
+export class ShipMarkerDTO {
+  public ships: ShipIdDTO[];
   public x: number;
   public y: number;
 
-  constructor(ships: ShipDTO[], x: number, y: number) {
+  constructor(ships: ShipIdDTO[], x: number, y: number) {
     this.ships = ships;
     this.x = x;
     this.y = y;

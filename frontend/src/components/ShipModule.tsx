@@ -1,14 +1,14 @@
 import React, {useEffect, useState } from 'react';
-import {ShipContext, ShipHolder} from '../logic/contexts/ShipContext';
-import ShipMapComponent from "./ShipMapComponent";
+import {CurrentShipContext, CurrentShipHolder} from '../logic/contexts/CurrentShipContext';
+import ShipMap from "./ShipMap";
 import fetchAllShips from "../logic/fetchers/ShipFetcher";
 
 const ShipModule = () => {
-  const [shipContext, updateShips] = useState<ShipHolder>(new ShipHolder());
+  const [shipContext, updateShips] = useState<CurrentShipHolder>(new CurrentShipHolder());
 
   useEffect(() => {
     fetchAllShips().then(responseBody => {
-      let shipCtx = new ShipHolder();
+      let shipCtx = new CurrentShipHolder();
       shipCtx.currentShips = responseBody;
       updateShips(shipCtx);
     })
@@ -16,13 +16,13 @@ const ShipModule = () => {
 
   console.log(shipContext.currentShips.length)
   return (
-    <ShipContext.Provider value={{
+    <CurrentShipContext.Provider value={{
       shipHolder: shipContext,
       shipHolderUpdate: updateShips
     }} >
-      <ShipMapComponent ships={shipContext.currentShips}/>
+      <ShipMap ships={shipContext.currentShips}/>
 
-    </ShipContext.Provider>
+    </CurrentShipContext.Provider>
   );
 };
 

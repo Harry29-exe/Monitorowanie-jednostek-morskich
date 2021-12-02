@@ -33,7 +33,7 @@ const LoginModal = (props: {onLogin: (auth: Authentication) => any}) => {
 
   return (
     <>
-      <Button onClick={onOpen}>Login</Button>
+      <Button onClick={onOpen} size={'lg'} bg={"teal.600"}>Login</Button>
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay/>
         <ModalContent>
