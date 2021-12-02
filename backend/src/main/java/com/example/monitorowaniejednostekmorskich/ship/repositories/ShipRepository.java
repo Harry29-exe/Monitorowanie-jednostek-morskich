@@ -6,11 +6,14 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.UUID;
 
 @Repository
 public interface ShipRepository extends JpaRepository<Ship, Long>, ShipRepositoryExtension {
 
     ShipDTO findByName(String name);
+
+    ShipDTO findByPublicId(UUID publicId);
 
     List<ShipDTO> findAllByTrackedBy_UsernameAndStillTrackedTrue(String username);
 

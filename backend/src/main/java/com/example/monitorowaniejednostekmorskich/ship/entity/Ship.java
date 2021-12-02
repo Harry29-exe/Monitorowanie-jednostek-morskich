@@ -8,7 +8,6 @@ import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
-import javax.validation.constraints.Null;
 import java.util.Set;
 import java.util.UUID;
 
@@ -20,19 +19,24 @@ public class Ship {
 
     @Id
     @GeneratedValue
-    private @NonNull Long id;
+    private @NonNull
+    Long id;
 
-    @Column(unique = true)
-    private @NonNull UUID publicId;
+    @Column(unique = true, nullable = false)
+    private @NonNull
+    UUID publicId = UUID.randomUUID();
 
     @Column(nullable = false, updatable = false)
-    private @NonNull Integer mmsi;
+    private @NonNull
+    Integer mmsi;
 
     @Column
-    private @Nullable String shipType;
+    private @Nullable
+    String shipType;
 
     @Column
-    private @Nullable String name;
+    private @Nullable
+    String name;
 
     @Column
     private @NonNull Boolean stillTracked;

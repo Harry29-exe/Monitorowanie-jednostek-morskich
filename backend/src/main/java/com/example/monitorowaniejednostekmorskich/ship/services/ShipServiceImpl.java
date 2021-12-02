@@ -1,6 +1,7 @@
 package com.example.monitorowaniejednostekmorskich.ship.services;
 
 import com.example.monitorowaniejednostekmorskich.AISAadapter.service.AISApiService;
+import com.example.monitorowaniejednostekmorskich.ship.dto.LocationDTO;
 import com.example.monitorowaniejednostekmorskich.ship.dto.ShipDTO;
 import com.example.monitorowaniejednostekmorskich.ship.dto.ShipWithLocationDTO;
 import com.example.monitorowaniejednostekmorskich.ship.entity.Ship;
@@ -13,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @Transactional
@@ -35,8 +37,19 @@ public class ShipServiceImpl implements ShipService {
     }
 
     @Override
+    public ShipDTO getShip(UUID publicId) {
+        return shipRepo.findByPublicId(publicId);
+    }
+
+    @Override
     public List<ShipWithLocationDTO> getUsersStillTracked(String username) {
         return shipRepo.findAllUsersShip(username);
+    }
+
+    @Override
+    public List<LocationDTO> getShipLocations(UUID shipPublicId) {
+        return shipLocationRepo.findAllByShip_PublicIdOrderByTime(shipPublicId)
+                .stream().map(LocationDTO::from).toList();
     }
 
     @Override

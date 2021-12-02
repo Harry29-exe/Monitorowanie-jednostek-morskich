@@ -10,6 +10,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestControllerAdvice
 public class ShipAPIImpl implements ShipAPI {
@@ -27,8 +28,10 @@ public class ShipAPIImpl implements ShipAPI {
     }
 
     @Override
-    public GetShipHistoryResponse getShipHistory(Long shipId) {
-        return null;
+    public GetShipHistoryResponse getShipHistory(UUID shipId) {
+        var ship = shipService.getShip(shipId);
+        var locations = shipService.getShipLocations(shipId);
+        return new GetShipHistoryResponse(ship, locations);
     }
 
     @Override
@@ -40,7 +43,7 @@ public class ShipAPIImpl implements ShipAPI {
     }
 
     @Override
-    public void stopTrackingShip(Long shipId, Authentication auth) {
+    public void stopTrackingShip(UUID shipId, Authentication auth) {
 
     }
 

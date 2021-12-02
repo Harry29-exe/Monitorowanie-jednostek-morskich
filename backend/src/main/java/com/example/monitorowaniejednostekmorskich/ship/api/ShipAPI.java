@@ -9,8 +9,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
-@CrossOrigin(origins = CorsAddresses.FRONTEND_ADDRESS)
+@CrossOrigin(origins = CorsAddresses.FRONTEND_ADDRESS, allowedHeaders = {"*", "Authorization"}, exposedHeaders = "*", allowCredentials = "true")
 @RequestMapping("/ships/")
 public interface ShipAPI {
 
@@ -19,7 +20,7 @@ public interface ShipAPI {
 
     @PostMapping("history/{shipId}")
     @PreAuthorize("isAuthenticated()")
-    GetShipHistoryResponse getShipHistory(@PathVariable Long shipId);
+    GetShipHistoryResponse getShipHistory(@PathVariable UUID shipId);
 
     @GetMapping("tracked-ships")
     @PreAuthorize("isAuthenticated()")
@@ -27,7 +28,7 @@ public interface ShipAPI {
 
     @DeleteMapping("tracking/{shipId}")
     @PreAuthorize("isAuthenticated()")
-    void stopTrackingShip(@PathVariable Long shipId, Authentication auth);
+    void stopTrackingShip(@PathVariable UUID shipId, Authentication auth);
 
     @PostMapping("tracking/{shipMMSI}")
     @PreAuthorize("isAuthenticated()")
