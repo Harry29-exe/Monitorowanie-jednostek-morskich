@@ -46,13 +46,12 @@ const ShipExplorerRow = (props: {
 
       <HStack>
         <Tooltip label="stop tracking">
-          <IconButton aria-label=""
+          <IconButton aria-label="" bg={"teal.700"}
                       icon={<MinusIcon/>}
-
           />
         </Tooltip>
         <Tooltip label="show history">
-          <IconButton aria-label="" icon={
+          <IconButton aria-label="" bg={"teal.700"} icon={
             state === State.NOT_VISIBLE? <ViewIcon/>:
               state === State.VISIBLE? <ViewOffIcon/>:
                 <SpinnerIcon/>

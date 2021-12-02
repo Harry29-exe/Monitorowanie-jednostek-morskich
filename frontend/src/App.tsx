@@ -10,13 +10,16 @@ import {
 import ShipModule from "./components/ShipModule";
 import { useState } from "react";
 import UserModuleWrapper, {Authentication} from "./components/user-module/UserModuleWrapper";
+import { AuthContext } from "./logic/contexts/AuthContext";
+import "./Scrolbar.css"
 
 export const App = () => {
   const [page, setPage] = useState<"main" | "my">("main")
-  const [auth, setAuth] = useState<Authentication | null>(null);
+  const [auth, setAuth] = useState<Authentication>();
 
   return (
     <ChakraProvider theme={theme}>
+      <AuthContext.Provider value={{auth: auth, updateAuth: setAuth}}>
       <HStack w="100vw" h={"70px"} bg={"teal.600"} spacing={0} fontSize={"28px"} textAlign={"center"}
               shadow={"0px 0px 10px 2px black"} pos={"relative"} zIndex={10}>
         <Link bg={page === "main"? "teal.700" : "teal.600"} px={8}
@@ -33,8 +36,9 @@ export const App = () => {
         {page === "main"?
           <ShipModule/>
         :
-          <UserModuleWrapper auth={auth} setAuth={setAuth}/>
+          <UserModuleWrapper/>
         }
     </Center>
+      </AuthContext.Provider>
   </ChakraProvider>
 )}

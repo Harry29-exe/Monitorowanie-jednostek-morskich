@@ -1,5 +1,5 @@
 import React, {useEffect, useState } from 'react';
-import {CurrentShipContext, CurrentShipHolder} from '../logic/contexts/CurrentShipContext';
+import { CurrentShipHolder} from '../logic/contexts/CurrentShipContext';
 import ShipMap from "./ShipMap";
 import fetchAllShips from "../logic/fetchers/ShipFetcher";
 
@@ -16,13 +16,7 @@ const ShipModule = () => {
 
   console.log(shipContext.currentShips.length)
   return (
-    <CurrentShipContext.Provider value={{
-      shipHolder: shipContext,
-      shipHolderUpdate: updateShips
-    }} >
-      <ShipMap ships={shipContext.currentShips} traces={[]}/>
-
-    </CurrentShipContext.Provider>
+    <ShipMap ships={shipContext.currentShips} traces={[]}/>
   );
 };
 

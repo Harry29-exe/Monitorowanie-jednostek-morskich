@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import LoginModal from "./LoginModal";
 import ShipMap from "../ShipMap";
 import fetchTrackedShips from "../../logic/fetchers/TrackedShips";
@@ -8,6 +8,7 @@ import {Center, HStack, useBoolean} from "@chakra-ui/react";
 import {ShipData} from "../../logic/dto/ships/ShipData";
 import fetchShipHistory from "../../logic/fetchers/FetchShipHistory";
 import {LocationDTO} from "../../logic/dto/LocationDTO";
+import {AuthContext} from "../../logic/contexts/AuthContext";
 
 export interface Authentication {
   username: string;
@@ -25,12 +26,11 @@ export enum OperationStatus {
   FAIL
 }
 
-const UserModuleWrapper = (props: {
-  auth: Authentication | null,
-  setAuth: (auth:Authentication) => any}) => {
+const UserModuleWrapper = () => {
   const [shipsData, updateShips] = useState<ShipData[]>([]);
   const [shipsFetchInit, fetchShips] = useBoolean(false);
-  const {auth, setAuth} = props;
+  const authContext = useContext(AuthContext);
+  const auth = authContext.auth;
 
   const updateShipsData = () => updateShips(shipsData.map(s => s))
 
@@ -82,13 +82,14 @@ const UserModuleWrapper = (props: {
     <HStack m={0} p={0} h="100%" w="100%" pos="relative">
       {!auth?
         <Center w="100%" h="100%">
-          <LoginModal onLogin={setAuth}/>
+          <LoginModal onLogin={authContext.updateAuth}/>
         </Center>
         :
         <>
           <ShipExplorer ships={shipsData.map(s => s.shipDTO)}
                         show={showShip}
                         hide={hideShip}
+                        initShipFetch={fetchShips.toggle}
           />
 
           <ShipMap ships={shipsData.map(s => CurrentShipInfo.from(s))}

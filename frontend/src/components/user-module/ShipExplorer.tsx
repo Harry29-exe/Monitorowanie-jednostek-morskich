@@ -15,30 +15,26 @@ import {ShipDTO} from "../../logic/dto/ships/ShipDTO";
 import {ArrowLeftIcon, ArrowRightIcon, MinusIcon, SmallAddIcon, SmallCloseIcon, ViewIcon} from "@chakra-ui/icons";
 import ShipExplorerRow from "./ShipExplorerRow";
 import {OperationStatus} from "./UserModuleWrapper";
+import ShipNewTrackInput from "./ShipNewTrackInput";
 
 const ShipExplorer = (props: {
   ships: ShipDTO[],
   show: (id: string) => Promise<OperationStatus>,
-  hide: (id: string) => Promise<OperationStatus>
+  hide: (id: string) => Promise<OperationStatus>,
+  initShipFetch: () => any
 }) => {
   const [enabled, setEnabled] = useBoolean(true);
   const w = useBreakpointValue([250, 350, 400]);
 
   return (
-    <HStack h="100%" spacing={0} pos="absolute" top={0}
+    <HStack h="100%"  spacing={0} pos="absolute" top={0}
             zIndex={5} shadow="0 0 10px 4px black"
             left={enabled? 0: `-${w}px`} transition={"left 0.5s"}>
 
       <VStack bg={"teal.600"} px={4} h="100%" py={6} w={`${w}px`}
-              pos={"relative"}>
+              pos={"relative"} minH="100%" maxH="100%" overflowY="auto">
 
-        <VStack w={"100%"} borderBottom={"2px solid"} borderColor={"rgb(255,255,255,0.3)"} pb={5}>
-          <Input placeholder="enter ship mmsi"/>
-          <Button px={2} w={"100%"}>
-            Add ship to track
-            <SmallAddIcon fontSize={"25px"}/>
-          </Button>
-        </VStack>
+        <ShipNewTrackInput initShipsFetch={props.initShipFetch}/>
         {
           props.ships.map(s => (
             <ShipExplorerRow ship={s} show={props.show} hide={props.hide}/>
