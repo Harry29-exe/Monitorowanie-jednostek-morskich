@@ -13,10 +13,13 @@ import {
 } from "@chakra-ui/react";
 import {ShipDTO} from "../../logic/dto/ships/ShipDTO";
 import {ArrowLeftIcon, ArrowRightIcon, MinusIcon, SmallCloseIcon, ViewIcon} from "@chakra-ui/icons";
+import ShipExplorerRow from "./ShipExplorerRow";
+import {OperationStatus} from "./UserModuleWrapper";
 
 const ShipExplorer = (props: {
   ships: ShipDTO[],
-  setSingleView: (shipId: string) => any
+  show: (id: string) => Promise<OperationStatus>,
+  hide: (id: string) => Promise<OperationStatus>
 }) => {
   const [enabled, setEnabled] = useBoolean(true);
   const [selected, setSelected] = useState<number>();
@@ -31,31 +34,11 @@ const ShipExplorer = (props: {
       >
         {
           props.ships.map(s => (
-            <HStack spacing={10} alignSelf={"flex-start"} w={"100%"}
-                    onClick={() => props.setSingleView(s.publicId)}
-                    key={s.publicId}
-            >
-              <VStack  alignItems={"flex-start"} flexGrow={4}>
-                <span>Ship name: {s.name}</span>
-                <span>Ship mmsi: {s.mmsi}</span>
-              </VStack>
-
-              <HStack>
-                <Tooltip label="stop tracking">
-                  <IconButton aria-label="" icon={<MinusIcon/>}
-                              onClick={() => props.setSingleView(s.publicId)}
-                  />
-                </Tooltip>
-                <Tooltip label="show history">
-                  <IconButton aria-label="" icon={<ViewIcon/>}/>
-                </Tooltip>
-
-              </HStack>
-            </HStack>
-
+            <ShipExplorerRow ship={s} show={props.show} hide={props.hide}/>
           ))
         }
       </VStack>
+
       <Center onClick={() => setEnabled.toggle()}
               _hover={{cursor: "pointer"}} p={2} pb={40} fontSize="16px"
               w="30px" h="100%" bg={"teal.700"}>

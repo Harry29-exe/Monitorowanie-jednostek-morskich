@@ -16,15 +16,15 @@ export interface Authentication {
   authToken: string;
 }
 
-enum Modes {
-  VIEW_ALL,
-  VIEW_SINGLE
-}
-
 function getShip(id: string, shipsData: ShipData[]): ShipData | null {
   let ships = shipsData.filter(f => f.shipDTO.publicId === id);
   if(ships.length === 0) return null;
   return ships[0];
+}
+
+export enum OperationStatus {
+  OK,
+  FAIL
 }
 
 const UserModuleWrapper = () => {
@@ -34,22 +34,32 @@ const UserModuleWrapper = () => {
 
   const updateShipsData = () => updateShips(shipsData.map(s => s))
 
-  const setModeToViewSingle = (shipId: string) => {
+  const showShip = (shipId: string): Promise<OperationStatus> => {
     let ships = shipsData.filter(f => f.shipDTO.publicId === shipId);
     if(ships.length > 0) {
-      if(ships[0].history) {
-        setActiveShip(ships[0].shipDTO.publicId);
-      } else if (!!auth) {
-        fetchShipHistory(auth.authToken, ships[0].shipDTO.publicId)
+      if (!!auth) {
+        return fetchShipHistory(auth.authToken, ships[0].shipDTO.publicId)
           .then(history => {
             ships[0].history = history.history;
+            ships[0].displayHistory = true;
             updateShipsData();
             setActiveShip(ships[0].shipDTO.publicId);
-          })
+          }).then(() => OperationStatus.OK);
       }
+      return Promise.resolve(OperationStatus.FAIL);
     } else {
-      throw new Error();
+      return Promise.resolve(OperationStatus.FAIL);
     }
+  }
+
+  const hideShip = (shipId: string): Promise<OperationStatus> => {
+    let ship = getShip(shipId, shipsData);
+    if(!!ship) {
+      ship.displayHistory = false;
+      updateShipsData();
+      return Promise.resolve(OperationStatus.OK);
+    }
+    return Promise.resolve(OperationStatus.FAIL);
   }
 
   useEffect(() => {
@@ -64,14 +74,11 @@ const UserModuleWrapper = () => {
       });
   }, [auth]);
 
-  let traces: any;
-  if(activeShip) {
-    let ship = getShip(activeShip, shipsData);
-    if(!ship) traces = null;
-    else traces = [ship.history];
-  } else {
-    traces = null;
-  }
+  let traces: LocationDTO[][] = shipsData
+    .filter(s => s.displayHistory && !!s.history)
+    .map(s => s.history) as LocationDTO[][];
+
+
 
   // debugger;
   return (
@@ -83,7 +90,7 @@ const UserModuleWrapper = () => {
         :
         <>
           <ShipExplorer ships={shipsData.map(s => s.shipDTO)}
-                        setSingleView={setModeToViewSingle}
+                        show={showShip} hide={hideShip}
           />
 
           <ShipMap ships={shipsData.map(s => CurrentShipInfo.from(s))} traces={traces? traces: []}/>

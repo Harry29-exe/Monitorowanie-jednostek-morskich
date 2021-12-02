@@ -8,6 +8,7 @@ export class ShipData implements ShipWithLocation {
   public shipDTO: ShipDTO;
   public visible: boolean = true;
   public history?: LocationDTO[];
+  public displayHistory: boolean = false;
   public isUnderModifications: boolean = false;
 
   constructor(lastLocation: LocationDTO, shipDTO: ShipDTO) {
