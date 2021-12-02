@@ -9,10 +9,11 @@ import {
 } from "@chakra-ui/react"
 import ShipModule from "./components/ShipModule";
 import { useState } from "react";
-import UserModuleWrapper from "./components/user-module/UserModuleWrapper";
+import UserModuleWrapper, {Authentication} from "./components/user-module/UserModuleWrapper";
 
 export const App = () => {
   const [page, setPage] = useState<"main" | "my">("main")
+  const [auth, setAuth] = useState<Authentication | null>(null);
 
   return (
     <ChakraProvider theme={theme}>
@@ -32,7 +33,7 @@ export const App = () => {
         {page === "main"?
           <ShipModule/>
         :
-          <UserModuleWrapper/>
+          <UserModuleWrapper auth={auth} setAuth={setAuth}/>
         }
     </Center>
   </ChakraProvider>

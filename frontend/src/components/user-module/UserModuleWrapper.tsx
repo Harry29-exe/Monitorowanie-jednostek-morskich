@@ -4,7 +4,7 @@ import ShipMap from "../ShipMap";
 import fetchTrackedShips from "../../logic/fetchers/TrackedShips";
 import {CurrentShipInfo} from "../../logic/dto/ships/CurrentShipInfo";
 import ShipExplorer from "./ShipExplorer";
-import {Center, HStack} from "@chakra-ui/react";
+import {Center, HStack, useBoolean} from "@chakra-ui/react";
 import {ShipData} from "../../logic/dto/ships/ShipData";
 import fetchShipHistory from "../../logic/fetchers/FetchShipHistory";
 import {LocationDTO} from "../../logic/dto/LocationDTO";
@@ -25,10 +25,12 @@ export enum OperationStatus {
   FAIL
 }
 
-const UserModuleWrapper = () => {
-  const [auth, setAuth] = useState<Authentication | null>(null);
+const UserModuleWrapper = (props: {
+  auth: Authentication | null,
+  setAuth: (auth:Authentication) => any}) => {
   const [shipsData, updateShips] = useState<ShipData[]>([]);
-  const [activeShip, setActiveShip] = useState<string>();
+  const [shipsFetchInit, fetchShips] = useBoolean(false);
+  const {auth, setAuth} = props;
 
   const updateShipsData = () => updateShips(shipsData.map(s => s))
 
@@ -41,7 +43,6 @@ const UserModuleWrapper = () => {
             ships[0].history = history.history;
             ships[0].displayHistory = true;
             updateShipsData();
-            setActiveShip(ships[0].shipDTO.publicId);
           }).then(() => OperationStatus.OK);
       }
       return Promise.resolve(OperationStatus.FAIL);
@@ -70,7 +71,7 @@ const UserModuleWrapper = () => {
         }
         updateShips(body.map(s => new ShipData(s.lastLocation, s.shipDTO)));
       });
-  }, [auth]);
+  }, [auth, shipsFetchInit]);
 
   let traces: LocationDTO[][] = shipsData
     .filter(s => s.displayHistory && !!s.history)
@@ -86,10 +87,12 @@ const UserModuleWrapper = () => {
         :
         <>
           <ShipExplorer ships={shipsData.map(s => s.shipDTO)}
-                        show={showShip} hide={hideShip}
+                        show={showShip}
+                        hide={hideShip}
           />
 
-          <ShipMap ships={shipsData.map(s => CurrentShipInfo.from(s))} traces={traces? traces: []}/>
+          <ShipMap ships={shipsData.map(s => CurrentShipInfo.from(s))}
+                   traces={traces? traces: []}/>
 
         </>
       }
