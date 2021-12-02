@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {DivIcon, Map as LeafletMap} from "leaflet";
-import {MapContainer, Marker, Popup, TileLayer} from 'react-leaflet';
+import {MapContainer, Marker, Polyline, Popup, TileLayer} from 'react-leaflet';
 import {Box, Center, VStack} from '@chakra-ui/react';
 import {CurrentShipInfo} from "../logic/dto/ships/CurrentShipInfo";
 import {shipMarkerReducer} from "../logic/map-related/ShipMarkerReducer";
@@ -8,13 +8,14 @@ import {Area} from "../logic/dto/Area";
 import {ShipMarkerDTO} from "../logic/dto/ShipMarkerDTO";
 import {createMarker} from "../logic/map-related/CreateMarker";
 import ShipMarker from './ShipMarker';
+import {LocationDTO} from "../logic/dto/LocationDTO";
 
 interface Coords {
   x: number;
   y: number;
 }
 
-const ShipMap = (props: {ships: CurrentShipInfo[]}) => {
+const ShipMap = (props: {ships: CurrentShipInfo[], traces: LocationDTO[][]}) => {
   const [map, setMap] = useState<LeafletMap>();
   const [markers, setMarkers] = useState<ShipMarkerDTO[]>([]);
 
@@ -46,6 +47,12 @@ const ShipMap = (props: {ships: CurrentShipInfo[]}) => {
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
+
+        {!!props.traces && props.traces.length > 0 &&
+          props.traces.map(t => (
+            <Polyline pathOptions={{color: "blue"}} positions={t.map(location => [location.y, location.x])}/>
+          ))
+        }
 
         {markers.map(m => (
           <ShipMarker marker={m} key={m.toMarkerString()}/>

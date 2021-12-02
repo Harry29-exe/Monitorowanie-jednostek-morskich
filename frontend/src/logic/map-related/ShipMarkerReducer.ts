@@ -7,7 +7,6 @@ export function shipMarkerReducer(
     boundingBox: Area): ShipMarkerDTO[] {
     let maxXDiff = Math.abs(Math.abs(boundingBox.fromX) - Math.abs(boundingBox.toX)) / 20;
     let maxYDiff = Math.abs(Math.abs(boundingBox.fromY) - Math.abs(boundingBox.toY)) / 20;
-    console.log(maxXDiff, maxYDiff);
     let shipMarkers: ShipMarkerDTO[] = [];
     for(let ship of ships) {
         let closeMarker = shipMarkers.filter(m =>

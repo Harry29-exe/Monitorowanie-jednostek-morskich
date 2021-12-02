@@ -20,7 +20,7 @@ const ShipModule = () => {
       shipHolder: shipContext,
       shipHolderUpdate: updateShips
     }} >
-      <ShipMap ships={shipContext.currentShips}/>
+      <ShipMap ships={shipContext.currentShips} traces={[]}/>
 
     </CurrentShipContext.Provider>
   );

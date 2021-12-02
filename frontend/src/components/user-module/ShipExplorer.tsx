@@ -16,8 +16,8 @@ import {ArrowLeftIcon, ArrowRightIcon, MinusIcon, SmallCloseIcon, ViewIcon} from
 
 const ShipExplorer = (props: {
   ships: ShipDTO[],
-  setSingleView: (shipId: string) => any,
-  setViewALL: () => any }) => {
+  setSingleView: (shipId: string) => any
+}) => {
   const [enabled, setEnabled] = useBoolean(true);
   const [selected, setSelected] = useState<number>();
   const w = useBreakpointValue([250, 350, 400]);
