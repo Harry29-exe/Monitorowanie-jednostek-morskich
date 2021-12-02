@@ -39,7 +39,8 @@ public class Ship {
     String name;
 
     @Column
-    private @NonNull Boolean stillTracked;
+    private @NonNull
+    Boolean stillTracked;
 
     @OneToMany(mappedBy = "ship")
     private Set<ShipLocalization> localizations;

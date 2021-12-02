@@ -43,7 +43,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     private void validateUsername(String username) {
         for (char c : username.toCharArray()) {
-            if(!Character.isLetterOrDigit(c)) {
+            if (!Character.isLetterOrDigit(c)) {
                 throw new BadCredentialsException("Username can only contains letters and digits");
             }
         }

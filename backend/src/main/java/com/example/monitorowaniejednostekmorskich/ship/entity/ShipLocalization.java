@@ -16,11 +16,13 @@ public class ShipLocalization {
 
     @Id
     @GeneratedValue
-    private @NonNull Long id;
+    private @NonNull
+    Long id;
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(nullable = false)
-    private @NonNull Date time;
+    private @NonNull
+    Date time;
 
     @Column(nullable = false)
     private Double xCoordinate;

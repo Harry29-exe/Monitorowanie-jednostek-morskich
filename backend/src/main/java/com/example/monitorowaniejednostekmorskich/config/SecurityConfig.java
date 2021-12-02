@@ -35,9 +35,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .anonymous()
                 .disable()
                 .addFilterAfter(authFilter, AuthorizationFilter.class)
-            .cors()
+                .cors()
                 .disable()
-            .csrf()
+                .csrf()
                 .disable();
     }
 

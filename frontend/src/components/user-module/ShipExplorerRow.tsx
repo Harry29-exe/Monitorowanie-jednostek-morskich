@@ -36,8 +36,8 @@ const ShipExplorerRow = (props: {
 
 
   return (
-    <HStack spacing={10} alignSelf={"flex-start"} w={"100%"}
-            key={ship.publicId}
+    <HStack spacing={10} alignSelf={"flex-start"} w={"100%"} py={4}
+            key={ship.publicId} borderBottom={"2px solid"} borderColor={"rgb(255,255,255,0.3)"}
     >
       <VStack  alignItems={"flex-start"} flexGrow={4}>
         <span>Ship name: {ship.name}</span>

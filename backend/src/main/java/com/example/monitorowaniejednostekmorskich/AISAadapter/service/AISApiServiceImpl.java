@@ -5,6 +5,7 @@ import com.example.monitorowaniejednostekmorskich.AISAadapter.dto.ShipTrackAIS;
 import com.example.monitorowaniejednostekmorskich.ship.ShipTypeConverter;
 import com.example.monitorowaniejednostekmorskich.ship.dto.AreaDTO;
 import com.example.monitorowaniejednostekmorskich.ship.dto.LocationDTO;
+import com.example.monitorowaniejednostekmorskich.ship.services.ShipDataCollectorService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.lang.Nullable;
@@ -22,6 +23,7 @@ import java.util.concurrent.atomic.AtomicReference;
 
 @Service
 public class AISApiServiceImpl implements AISApiService {
+    private final ShipDataCollectorService shipDataCollectorService;
     private final AtomicReference<String> apiSecret = new AtomicReference<>();
     private final AtomicReference<String> accessToken = new AtomicReference<>();
     private final RestTemplate template = new RestTemplate();
@@ -31,15 +33,14 @@ public class AISApiServiceImpl implements AISApiService {
     private static final Integer TEN_MINUTES = 600_000;
 
     public AISApiServiceImpl(
-            @Value("${MJM_secret}")
-            String secret
-    ) {
-        if(secret == null || secret.isBlank()) {
+            @Value("${MJM_secret}") String secret,
+            ShipDataCollectorService shipDataCollectorService) {
+        this.shipDataCollectorService = shipDataCollectorService;
+        if (secret == null || secret.isBlank()) {
             throw new IllegalStateException("No secret in environment");
         }
         this.apiSecret.set(secret);
         this.fetchAuthToken();
-        this.fetchCurrentShips();
     }
 
     @Override
@@ -56,9 +57,11 @@ public class AISApiServiceImpl implements AISApiService {
                 .orElse(null);
     }
 
-    @Scheduled(initialDelay = 600_000, fixedDelay = 600_000)
+    //    600_000
+    @Scheduled(initialDelay = 100, fixedDelay = 60_000)
     public void fetchCurrentShips() {
         this.currentShips = fetchShipFromArea(new AreaDTO(-0.79, 50.0, 34.36, 71.81));
+        this.shipDataCollectorService.onAISUpdate();
     }
 
     @Scheduled(initialDelay = 3_000_000, fixedDelay = 3_000_000)
@@ -78,12 +81,12 @@ public class AISApiServiceImpl implements AISApiService {
                 entity,
                 Map.class);
         var responseBody = response.getBody();
-        if(responseBody == null) {
+        if (responseBody == null) {
             throw new IllegalStateException();
         }
         var token = responseBody.get("access_token");
-        if(token == null) {
-            throw  new IllegalStateException();
+        if (token == null) {
+            throw new IllegalStateException();
         }
         this.accessToken.set((String) token);
     }
@@ -95,14 +98,14 @@ public class AISApiServiceImpl implements AISApiService {
 
         ResponseEntity<ShipTrackAIS[]> response = template.exchange(
                 "https://www.barentswatch.no/bwapi/v2/geodata/ais/openpositions?" +
-                        "Xmin="+area.getFromX()+"&Xmax="+area.getToX()+
-                        "&Ymin="+area.getFromY()+"&Ymax="+area.getToY(),
+                        "Xmin=" + area.getFromX() + "&Xmax=" + area.getToX() +
+                        "&Ymin=" + area.getFromY() + "&Ymax=" + area.getToY(),
 //                "https://www.barentswatch.no/bwapi/v2/geodata/ais/openpositions?Xmin=10.09094&Xmax=10.67047&Ymin=63.3989&Ymax=63.58645",
                 HttpMethod.GET,
                 httpEntity,
                 ShipTrackAIS[].class
         );
-        if(response.getBody() == null) {
+        if (response.getBody() == null) {
             throw new IllegalStateException();
         }
 

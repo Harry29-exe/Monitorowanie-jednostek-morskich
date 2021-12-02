@@ -81,4 +81,6 @@ public class ShipServiceImpl implements ShipService {
         ship.setStillTracked(false);
         shipRepo.save(ship);
     }
+
+
 }

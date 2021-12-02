@@ -1,6 +1,5 @@
 package com.example.monitorowaniejednostekmorskich.user.dto;
 
-import lombok.Data;
 import lombok.NonNull;
 import lombok.Value;
 

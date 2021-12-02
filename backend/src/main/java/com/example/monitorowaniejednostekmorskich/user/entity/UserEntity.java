@@ -3,7 +3,6 @@ package com.example.monitorowaniejednostekmorskich.user.entity;
 import com.example.monitorowaniejednostekmorskich.ship.entity.Ship;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.springframework.lang.NonNull;
 
@@ -18,13 +17,16 @@ public class UserEntity {
 
     @Id
     @GeneratedValue
-    private @NonNull Long id;
+    private @NonNull
+    Long id;
 
     @Column(nullable = false, updatable = false, unique = true)
-    private @NonNull String username;
+    private @NonNull
+    String username;
 
     @Column(nullable = false)
-    private @NonNull String password;
+    private @NonNull
+    String password;
 
     @OneToMany(mappedBy = "trackedBy")
     private Set<Ship> trackedShips;

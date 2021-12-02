@@ -21,4 +21,6 @@ public interface ShipRepository extends JpaRepository<Ship, Long>, ShipRepositor
 
     Ship findByMmsi(Integer mmsi);
 
+    List<Ship> findAllByStillTrackedTrue();
+
 }
