@@ -1,7 +1,7 @@
 package com.example.monitorowaniejednostekmorskich.user.service;
 
 import com.example.monitorowaniejednostekmorskich.user.entity.UserEntity;
-import com.example.monitorowaniejednostekmorskich.user.repositories.UserRepository;
+import com.example.monitorowaniejednostekmorskich.user.repositories.UserDAO;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,10 +17,10 @@ import java.util.ArrayList;
 @Transactional
 @Service
 public class UserServiceImpl implements UserService, UserDetailsService {
-    private final UserRepository userRepo;
+    private final UserDAO userRepo;
     private final PasswordEncoder passwordEncoder;
 
-    public UserServiceImpl(UserRepository userRepo, PasswordEncoder passwordEncoder) {
+    public UserServiceImpl(UserDAO userRepo, PasswordEncoder passwordEncoder) {
         this.userRepo = userRepo;
         this.passwordEncoder = passwordEncoder;
     }
@@ -31,7 +31,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         var password = passwordEncoder.encode(nonEncodedPassword);
         var userEntity = new UserEntity(username, password);
 
-        userRepo.saveAndFlush(userEntity);
+        userRepo.save(userEntity);
     }
 
     @Override

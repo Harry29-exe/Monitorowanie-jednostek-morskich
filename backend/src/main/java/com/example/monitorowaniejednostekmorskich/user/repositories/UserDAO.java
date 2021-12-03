@@ -1,14 +1,13 @@
 package com.example.monitorowaniejednostekmorskich.user.repositories;
 
 import com.example.monitorowaniejednostekmorskich.user.entity.UserEntity;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
-@Repository
-public interface UserRepository extends JpaRepository<UserEntity, Long> {
+public interface UserDAO {
 
     Optional<UserEntity> findByUsername(String username);
+
+    void save(UserEntity user);
 
 }

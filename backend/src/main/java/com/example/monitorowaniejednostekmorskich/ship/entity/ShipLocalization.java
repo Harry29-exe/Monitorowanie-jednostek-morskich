@@ -9,6 +9,7 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
+@Table(name = "ship_localization")
 @Getter
 @Setter
 @NoArgsConstructor
