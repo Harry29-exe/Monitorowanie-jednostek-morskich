@@ -19,11 +19,11 @@ import java.util.UUID;
 public class Ship {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private @NonNull
     Long id;
 
-    @Column(unique = true, nullable = false)
+    @Column(unique = true, nullable = false, name = "public_id")
     private @NonNull
     UUID publicId = UUID.randomUUID();
 
@@ -31,7 +31,7 @@ public class Ship {
     private @NonNull
     Integer mmsi;
 
-    @Column
+    @Column(name = "ship_type")
     private @Nullable
     String shipType;
 
@@ -39,14 +39,14 @@ public class Ship {
     private @Nullable
     String name;
 
-    @Column
+    @Column(name = "still_tracked")
     private @NonNull
     Boolean stillTracked;
 
-    @OneToMany(mappedBy = "ship", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "ship", cascade = CascadeType.ALL, fetch = FetchType.LAZY, targetEntity = ShipLocalization.class)
     private Set<ShipLocalization> localizations;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, targetEntity = UserEntity.class)
     @JoinColumn(name = "tracker_id")
     private UserEntity trackedBy;
 

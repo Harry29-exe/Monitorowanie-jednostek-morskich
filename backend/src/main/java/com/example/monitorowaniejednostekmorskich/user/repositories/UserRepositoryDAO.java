@@ -17,8 +17,10 @@ public class UserRepositoryDAO implements UserDAO {
 
     @Override
     public Optional<UserEntity> findByUsername(String username) {
-        var em = sessionFactory.createEntityManager();
-        var q = em.createQuery("""
+        var session = sessionFactory.openSession();
+        var t = session.beginTransaction();
+
+        var q = session.createQuery("""
                 SELECT u
                 FROM UserEntity u
                 WHERE u.username = :username
@@ -26,8 +28,9 @@ public class UserRepositoryDAO implements UserDAO {
         q.setParameter("username", username);
 
         var result = q.getSingleResult();
-        em.flush();
-        em.close();
+        session.flush();
+        t.commit();
+        session.close();
 
         return Optional.of(result);
     }
@@ -35,9 +38,13 @@ public class UserRepositoryDAO implements UserDAO {
 
     @Override
     public void save(UserEntity user) {
-        var em = sessionFactory.createEntityManager();
-        em.persist(user);
-        em.flush();
-        em.close();
+        var session = sessionFactory.openSession();
+        var t = session.beginTransaction();
+
+        session.save(user);
+
+//        session.flush();
+        t.commit();
+        session.close();
     }
 }

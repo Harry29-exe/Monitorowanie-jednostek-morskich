@@ -1,6 +1,5 @@
 package com.example.monitorowaniejednostekmorskich;
 
-import com.example.monitorowaniejednostekmorskich.ship.repositories.ShipRepository;
 import com.example.monitorowaniejednostekmorskich.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -10,8 +9,7 @@ import javax.annotation.PostConstruct;
 public class AddDumyData {
     @Autowired
     private UserService userService;
-    @Autowired
-    private ShipRepository shipRepository;
+
 
     @PostConstruct
     public void addBob() {

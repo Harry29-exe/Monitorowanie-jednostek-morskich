@@ -3,8 +3,8 @@ package com.example.monitorowaniejednostekmorskich.ship.services;
 import com.example.monitorowaniejednostekmorskich.AISAadapter.dto.CurrentShipInfoDTO;
 import com.example.monitorowaniejednostekmorskich.AISAadapter.service.AISService;
 import com.example.monitorowaniejednostekmorskich.ship.entity.ShipLocalization;
-import com.example.monitorowaniejednostekmorskich.ship.repositories.ShipLocationRepository;
-import com.example.monitorowaniejednostekmorskich.ship.repositories.ShipRepository;
+import com.example.monitorowaniejednostekmorskich.ship.repositories.ShipDAO;
+import com.example.monitorowaniejednostekmorskich.ship.repositories.ShipLocationDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
@@ -14,14 +14,14 @@ import java.util.HashMap;
 
 @Service
 public class ShipDataCollectorServiceImpl implements ShipDataCollectorService {
-    private final ShipRepository shipRepo;
-    private final ShipLocationRepository shipLocationRepo;
+    private final ShipDAO shipRepo;
+    private final ShipLocationDAO shipLocationRepo;
     @Autowired
     @Lazy
     private AISService aisService;
 
 
-    public ShipDataCollectorServiceImpl(ShipRepository shipRepo, ShipLocationRepository shipLocationRepo) {
+    public ShipDataCollectorServiceImpl(ShipDAO shipRepo, ShipLocationDAO shipLocationRepo) {
         this.shipRepo = shipRepo;
         this.shipLocationRepo = shipLocationRepo;
     }
@@ -45,7 +45,7 @@ public class ShipDataCollectorServiceImpl implements ShipDataCollectorService {
             }
         }
 
-        shipLocationRepo.saveAllAndFlush(locationsToSave);
+        shipLocationRepo.saveAll(locationsToSave);
     }
 
 }

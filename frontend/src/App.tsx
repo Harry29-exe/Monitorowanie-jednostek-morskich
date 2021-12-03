@@ -13,7 +13,7 @@ import { AuthContext } from "./logic/contexts/AuthContext";
 import "./Scrolbar.css"
 
 const config = {
-  initialColorMode: 'light',
+  initialColorMode: 'dark',
   useSystemColorMode: false,
 }
 

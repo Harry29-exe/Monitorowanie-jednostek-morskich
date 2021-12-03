@@ -16,7 +16,7 @@ import java.util.Date;
 public class ShipLocalization {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private @NonNull
     Long id;
 
@@ -25,13 +25,13 @@ public class ShipLocalization {
     private @NonNull
     Date time;
 
-    @Column(nullable = false)
+    @Column(nullable = false, name = "x_coordinate")
     private Double xCoordinate;
 
-    @Column(nullable = false)
+    @Column(nullable = false, name = "y_coordinate")
     private Double yCoordinate;
 
-    @ManyToOne
+    @ManyToOne(targetEntity = Ship.class)
     @JoinColumn(name = "ship_id")
     private Ship ship;
 

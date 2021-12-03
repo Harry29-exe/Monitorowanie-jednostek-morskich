@@ -6,12 +6,11 @@ import com.example.monitorowaniejednostekmorskich.ship.dto.ShipDTO;
 import com.example.monitorowaniejednostekmorskich.ship.dto.ShipWithLocationDTO;
 import com.example.monitorowaniejednostekmorskich.ship.entity.Ship;
 import com.example.monitorowaniejednostekmorskich.ship.entity.ShipLocalization;
-import com.example.monitorowaniejednostekmorskich.ship.repositories.ShipLocationRepository;
-import com.example.monitorowaniejednostekmorskich.ship.repositories.ShipRepository;
+import com.example.monitorowaniejednostekmorskich.ship.repositories.ShipDAO;
+import com.example.monitorowaniejednostekmorskich.ship.repositories.ShipLocationDAO;
 import com.example.monitorowaniejednostekmorskich.user.repositories.UserDAO;
 import org.springframework.security.access.AuthorizationServiceException;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
@@ -19,14 +18,13 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
-@Transactional
 public class ShipServiceImpl implements ShipService {
-    private final ShipRepository shipRepo;
+    private final ShipDAO shipRepo;
     private final UserDAO userRepo;
     private final AISService aisService;
-    private final ShipLocationRepository shipLocationRepo;
+    private final ShipLocationDAO shipLocationRepo;
 
-    public ShipServiceImpl(ShipRepository shipRepository, UserDAO userRepo, AISService aisService, ShipLocationRepository shipLocationRepo) {
+    public ShipServiceImpl(ShipDAO shipRepository, UserDAO userRepo, AISService aisService, ShipLocationDAO shipLocationRepo, ShipDAO shipDAO) {
         this.shipRepo = shipRepository;
         this.userRepo = userRepo;
         this.aisService = aisService;
@@ -70,7 +68,7 @@ public class ShipServiceImpl implements ShipService {
             shipRepo.save(ship);
         } else {
             Ship ship = new Ship(mmsi, currentShip.getType(), currentShip.getName(), userEntity);
-            shipRepo.saveAndFlush(ship);
+            shipRepo.save(ship);
 
             ShipLocalization localization = new ShipLocalization(
                     currentShip.getCurrentLocation().getTime(),
