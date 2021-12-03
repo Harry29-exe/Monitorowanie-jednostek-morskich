@@ -3,6 +3,7 @@ import {HStack, IconButton, Tooltip, VStack} from "@chakra-ui/react";
 import {MinusIcon, SpinnerIcon, ViewIcon, ViewOffIcon} from "@chakra-ui/icons";
 import {ShipDTO} from "../../logic/dto/ships/ShipDTO";
 import {OperationStatus} from "./UserModuleWrapper";
+import ShipInfoModal from "./ShipInfoModal";
 
 enum State {
   VISIBLE,
@@ -46,10 +47,9 @@ const ShipExplorerRow = (props: {
 
       <HStack>
         <Tooltip label="stop tracking">
-          <IconButton aria-label="" bg={"teal.700"}
-                      icon={<MinusIcon/>}
-          />
+          <ShipInfoModal ship={props.ship}/>
         </Tooltip>
+
         <Tooltip label="show history">
           <IconButton aria-label="" bg={"teal.700"} icon={
             state === State.NOT_VISIBLE? <ViewIcon/>:
