@@ -11,9 +11,9 @@ import java.util.UUID;
 @Repository
 public interface ShipRepository extends JpaRepository<Ship, Long>, ShipRepositoryExtension {
 
-    ShipDTO findByName(String name);
+    ShipDTO findDTOByPublicId(UUID publicId);
 
-    ShipDTO findByPublicId(UUID publicId);
+    Ship findByPublicId(UUID publicId);
 
     List<ShipDTO> findAllByTrackedBy_UsernameAndStillTrackedTrue(String username);
 
@@ -22,5 +22,7 @@ public interface ShipRepository extends JpaRepository<Ship, Long>, ShipRepositor
     Ship findByMmsi(Integer mmsi);
 
     List<Ship> findAllByStillTrackedTrue();
+
+    Boolean existsByMmsiAndTrackedBy_Username(Integer mmsi, String username);
 
 }

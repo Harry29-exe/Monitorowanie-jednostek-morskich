@@ -9,9 +9,11 @@ import com.example.monitorowaniejednostekmorskich.ship.entity.ShipLocalization;
 import com.example.monitorowaniejednostekmorskich.ship.repositories.ShipLocationRepository;
 import com.example.monitorowaniejednostekmorskich.ship.repositories.ShipRepository;
 import com.example.monitorowaniejednostekmorskich.user.repositories.UserRepository;
+import org.springframework.security.access.AuthorizationServiceException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.UUID;
@@ -38,7 +40,7 @@ public class ShipServiceImpl implements ShipService {
 
     @Override
     public ShipDTO getShip(UUID publicId) {
-        return shipRepo.findByPublicId(publicId);
+        return shipRepo.findDTOByPublicId(publicId);
     }
 
     @Override
@@ -56,6 +58,11 @@ public class ShipServiceImpl implements ShipService {
     public void addNewTackedShip(String username, Integer mmsi) {
         var userEntity = userRepo.findByUsername(username)
                 .orElseThrow(EntityNotFoundException::new);
+        if (shipRepo.existsByMmsiAndTrackedBy_Username(mmsi, username)) {
+            throw new EntityExistsException("Ship is already being tracked");
+        }
+
+
         var currentShip = aisService.getShip(mmsi);
 
         if (currentShip == null) {
@@ -76,11 +83,18 @@ public class ShipServiceImpl implements ShipService {
     }
 
     @Override
-    public void stopTracking(String username, Integer mmsi) {
-        var ship = shipRepo.findByMmsi(mmsi);
+    public void stopTracking(String username, UUID shipPublicId) {
+        var ship = shipRepo.findByPublicId(shipPublicId);
         ship.setStillTracked(false);
         shipRepo.save(ship);
     }
 
-
+    @Override
+    public void deleteShip(String username, UUID shipPublicId) {
+        var ship = shipRepo.findByPublicId(shipPublicId);
+        if (!ship.getTrackedBy().getUsername().equals(username)) {
+            throw new AuthorizationServiceException("");
+        }
+        shipRepo.delete(ship);
+    }
 }

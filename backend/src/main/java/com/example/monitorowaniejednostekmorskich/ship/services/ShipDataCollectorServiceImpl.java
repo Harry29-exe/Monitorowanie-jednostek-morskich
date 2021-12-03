@@ -35,6 +35,9 @@ public class ShipDataCollectorServiceImpl implements ShipDataCollectorService {
 
         var locationsToSave = new ArrayList<ShipLocalization>();
         for (var ship : allShips) {
+            if (!ship.getStillTracked()) {
+                continue;
+            }
             var currentShip = currentShipsMap.get(ship.getMmsi());
             if (currentShip != null) {
                 var location = currentShip.getCurrentLocation();

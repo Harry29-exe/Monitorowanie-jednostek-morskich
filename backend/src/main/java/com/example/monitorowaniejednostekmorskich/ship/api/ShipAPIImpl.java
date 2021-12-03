@@ -44,13 +44,26 @@ public class ShipAPIImpl implements ShipAPI {
 
     @Override
     public void stopTrackingShip(UUID shipId, Authentication auth) {
-
+        if (auth instanceof UsernamePasswordAuthenticationToken upAuth) {
+            shipService.stopTracking(upAuth.getName(), shipId);
+        } else {
+            throw new IllegalStateException();
+        }
     }
 
     @Override
     public void startTrackingShip(Integer shipMMSI, Authentication auth) {
         if (auth instanceof UsernamePasswordAuthenticationToken upAuth) {
             shipService.addNewTackedShip(upAuth.getName(), shipMMSI);
+        } else {
+            throw new IllegalStateException();
+        }
+    }
+
+    @Override
+    public void deleteShip(UUID shipId, Authentication auth) {
+        if (auth instanceof UsernamePasswordAuthenticationToken upAuth) {
+            shipService.deleteShip(upAuth.getName(), shipId);
         } else {
             throw new IllegalStateException();
         }

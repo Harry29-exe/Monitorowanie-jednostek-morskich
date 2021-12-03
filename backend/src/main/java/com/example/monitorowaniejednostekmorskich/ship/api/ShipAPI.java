@@ -34,4 +34,8 @@ public interface ShipAPI {
     @PreAuthorize("isAuthenticated()")
     void startTrackingShip(@PathVariable Integer shipMMSI, Authentication auth);
 
+    @DeleteMapping("/{shipId}")
+    @PreAuthorize("isAuthenticated()")
+    void deleteShip(@PathVariable UUID shipId, Authentication auth);
+
 }

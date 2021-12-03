@@ -42,7 +42,7 @@ public class Ship {
     private @NonNull
     Boolean stillTracked;
 
-    @OneToMany(mappedBy = "ship")
+    @OneToMany(mappedBy = "ship", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<ShipLocalization> localizations;
 
     @ManyToOne(fetch = FetchType.LAZY)

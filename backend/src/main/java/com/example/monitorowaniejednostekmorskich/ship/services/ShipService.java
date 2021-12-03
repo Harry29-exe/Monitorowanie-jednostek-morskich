@@ -19,6 +19,8 @@ public interface ShipService {
 
     void addNewTackedShip(String username, Integer mmsi);
 
-    void stopTracking(String username, Integer mmsi);
+    void stopTracking(String username, UUID shipPublicId);
+
+    void deleteShip(String username, UUID shipPublicId);
 
 }
