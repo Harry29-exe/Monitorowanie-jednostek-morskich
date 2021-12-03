@@ -2,11 +2,10 @@ package com.example.monitorowaniejednostekmorskich.user.repositories;
 
 import com.example.monitorowaniejednostekmorskich.user.entity.UserEntity;
 import org.hibernate.SessionFactory;
-import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
-@Service
+//@Service
 public class UserRepositoryDAO implements UserDAO {
     private final SessionFactory sessionFactory;
 
