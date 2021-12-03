@@ -18,6 +18,7 @@ public class UserEntity {
 
     @Id
     @GeneratedValue
+    @Column(name = "id")
     private @NonNull
     Long id;
 
@@ -30,6 +31,7 @@ public class UserEntity {
     String password;
 
     @OneToMany(mappedBy = "trackedBy")
+    @Column(name = "tracked_ships")
     private Set<Ship> trackedShips;
 
     public UserEntity(@NonNull String username, @NonNull String password) {

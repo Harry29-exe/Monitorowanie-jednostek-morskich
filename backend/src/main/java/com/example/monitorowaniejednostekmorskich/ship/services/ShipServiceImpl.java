@@ -6,7 +6,7 @@ import com.example.monitorowaniejednostekmorskich.ship.dto.ShipDTO;
 import com.example.monitorowaniejednostekmorskich.ship.dto.ShipWithLocationDTO;
 import com.example.monitorowaniejednostekmorskich.ship.entity.Ship;
 import com.example.monitorowaniejednostekmorskich.ship.entity.ShipLocalization;
-import com.example.monitorowaniejednostekmorskich.ship.repositories.ShipLocationRepository;
+import com.example.monitorowaniejednostekmorskich.ship.repositories.ShipLocationDAO;
 import com.example.monitorowaniejednostekmorskich.ship.repositories.ShipRepository;
 import com.example.monitorowaniejednostekmorskich.user.repositories.UserDAO;
 import org.springframework.security.access.AuthorizationServiceException;
@@ -24,9 +24,9 @@ public class ShipServiceImpl implements ShipService {
     private final ShipRepository shipRepo;
     private final UserDAO userRepo;
     private final AISService aisService;
-    private final ShipLocationRepository shipLocationRepo;
+    private final ShipLocationDAO shipLocationRepo;
 
-    public ShipServiceImpl(ShipRepository shipRepository, UserDAO userRepo, AISService aisService, ShipLocationRepository shipLocationRepo) {
+    public ShipServiceImpl(ShipRepository shipRepository, UserDAO userRepo, AISService aisService, ShipLocationDAO shipLocationRepo) {
         this.shipRepo = shipRepository;
         this.userRepo = userRepo;
         this.aisService = aisService;

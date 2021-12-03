@@ -1,6 +1,6 @@
 FROM postgres:13.2
 
-#COPY initdb /docker-entrypoint-initdb.d
+COPY initdb /docker-entrypoint-initdb.d
 EXPOSE 5432
 ENV POSTGRES_PASSWORD=123
 

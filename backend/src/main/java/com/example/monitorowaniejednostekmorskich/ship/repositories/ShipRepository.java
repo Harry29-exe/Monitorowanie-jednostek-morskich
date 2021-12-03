@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Repository
-public interface ShipRepository extends JpaRepository<Ship, Long>, ShipRepositoryExtension {
+public interface ShipRepository extends JpaRepository<Ship, Long>, ShipDAO {
 
     ShipDTO findDTOByPublicId(UUID publicId);
 

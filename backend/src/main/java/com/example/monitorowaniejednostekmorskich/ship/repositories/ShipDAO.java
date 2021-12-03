@@ -6,7 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Transactional
-public interface ShipRepositoryExtension {
+public interface ShipDAO {
 
     ShipWithLocationDTO findDTOByMMSI(Integer mmsi);
 

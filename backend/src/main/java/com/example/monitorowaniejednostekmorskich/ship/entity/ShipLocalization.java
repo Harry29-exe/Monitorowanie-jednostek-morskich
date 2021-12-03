@@ -25,10 +25,10 @@ public class ShipLocalization {
     private @NonNull
     Date time;
 
-    @Column(nullable = false)
+    @Column(nullable = false, name = "x_coordinate")
     private Double xCoordinate;
 
-    @Column(nullable = false)
+    @Column(nullable = false, name = "y_coordinate")
     private Double yCoordinate;
 
     @ManyToOne

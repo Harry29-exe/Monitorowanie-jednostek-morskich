@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Repository
-public class ShipRepositoryExtensionImpl implements ShipRepositoryExtension {
+public class ShipRepositoryExtensionImpl implements ShipDAO {
 
     @PersistenceContext
     private EntityManager em;
