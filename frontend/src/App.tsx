@@ -1,17 +1,24 @@
 import * as React from "react"
 import {
   ChakraProvider,
-  theme,
   Center,
   Box,
   HStack,
-  Link,
+  Link, extendTheme,
 } from "@chakra-ui/react"
 import ShipModule from "./components/ShipModule";
 import { useState } from "react";
 import UserModuleWrapper, {Authentication} from "./components/user-module/UserModuleWrapper";
 import { AuthContext } from "./logic/contexts/AuthContext";
 import "./Scrolbar.css"
+
+const config = {
+  initialColorMode: 'light',
+  useSystemColorMode: false,
+}
+
+// 3. extend the theme
+const theme = extendTheme({ config })
 
 export const App = () => {
   const [page, setPage] = useState<"main" | "my">("main")
