@@ -10,7 +10,7 @@
     </parent>
     <groupId>com.example</groupId>
     <artifactId>Monitorowanie-jednostek-morskich</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1</version>
     <name>Monitorowanie-jednostek-morskich</name>
     <description>Monitorowanie-jednostek-morskich</description>
     <properties>
