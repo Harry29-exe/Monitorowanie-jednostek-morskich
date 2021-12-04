@@ -46,7 +46,7 @@ public class Ship {
     @OneToMany(mappedBy = "ship", cascade = CascadeType.ALL, fetch = FetchType.LAZY, targetEntity = ShipLocalization.class)
     private Set<ShipLocalization> localizations;
 
-    @ManyToOne(fetch = FetchType.LAZY, targetEntity = UserEntity.class)
+    @ManyToOne(fetch = FetchType.EAGER, targetEntity = UserEntity.class)
     @JoinColumn(name = "tracker_id")
     private UserEntity trackedBy;
 

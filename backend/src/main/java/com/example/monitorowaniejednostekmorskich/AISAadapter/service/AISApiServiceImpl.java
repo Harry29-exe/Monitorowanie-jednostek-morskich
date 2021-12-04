@@ -25,6 +25,7 @@ import java.util.concurrent.atomic.AtomicReference;
 public class AISApiServiceImpl implements AISService {
     private final ShipDataCollectorService shipDataCollectorService;
     private final AtomicReference<String> apiSecret = new AtomicReference<>();
+    private final AtomicReference<String> apiClientId = new AtomicReference<>();
     private final AtomicReference<String> accessToken = new AtomicReference<>();
     private final RestTemplate template = new RestTemplate();
 
@@ -34,12 +35,14 @@ public class AISApiServiceImpl implements AISService {
 
     public AISApiServiceImpl(
             @Value("${MJM_secret}") String secret,
+            @Value("${MJM_client_id}") String clientId,
             ShipDataCollectorService shipDataCollectorService) {
         this.shipDataCollectorService = shipDataCollectorService;
         if (secret == null || secret.isBlank()) {
             throw new IllegalStateException("No secret in environment");
         }
         this.apiSecret.set(secret);
+        this.apiClientId.set(clientId);
         this.fetchAuthToken();
     }
 
@@ -70,7 +73,7 @@ public class AISApiServiceImpl implements AISService {
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
 
         MultiValueMap<String, String> body = new LinkedMultiValueMap<>();
-        body.add("client_id", "wojcikakamil@gmail.com:Backend");
+        body.add("client_id", apiClientId.get());
         body.add("scope", "api");
         body.add("client_secret", this.apiSecret.get());
         body.add("grant_type", "client_credentials");

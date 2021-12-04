@@ -17,4 +17,4 @@ sudo docker build ./ --tag mjm;
 #printf "\n\n ----------------------"
 #printf "secret = %s" "$1"
 #printf " ----------------------\n\n"
-sudo docker run -p 8080:8080 -e secret=$1 --net=host --name mjm mjm
+sudo docker run -p 8080:8080 -e secret=$1 -e clientId=$2 --net=host --name mjm mjm
