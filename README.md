@@ -30,9 +30,10 @@
     <li>system obługujący bash</li>
   </ul>
   <h4>Filmik pokazujący poniższe instrukcje: https://youtu.be/luM0zmKOpQ4</h4>
-  [![Film pokazujący instalacje](https://img.youtube.com/vi/luM0zmKOpQ4/0.jpg)](https://www.youtube.com/watch?v=luM0zmKOpQ4)
+  
+   [![Film pokazujący instalacje](https://img.youtube.com/vi/luM0zmKOpQ4/0.jpg)](https://www.youtube.com/watch?v=luM0zmKOpQ4)
+  <h4>Instrukcja</h4>
   <span>
-
     #Kopjujemy niniejsze repozytorim do dowolnego folderu
     git clone https://github.com/Harry29-exe/Monitorowanie-jednostek-morskich
 
@@ -50,6 +51,10 @@
   <ul>
     <li>zainstalowany doker</li>
   </ul>
+  <h4>Filmik pokazujący poniższe instrukcje: https://youtu.be/luM0zmKOpQ4</h4>
+  
+   [![Film pokazujący instalacje](https://img.youtube.com/vi/CKhZpAm48Kg/0.jpg)](https://www.youtube.com/watch?v=CKhZpAm48Kg)
+  <h4>Instrukcja</h4>
   <span>
 
     #Kopjujemy niniejsze repozytorim do dowolnego folderu
