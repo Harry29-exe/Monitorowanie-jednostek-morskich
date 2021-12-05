@@ -9,7 +9,21 @@
   <h3>Prezentacja w formi filmiku:</h3>
   [![Film pokazujący instalacje](https://img.youtube.com/vi/BK5z3Z429Fk/0.jpg)](https://www.youtube.com/watch?v=BK5z3Z429Fk)
   <h3>Prezentacja w formie zdjęć z opisem</h3>
+  <h4>Moduł monitorowania pozycji statków</h4>
+  ![](readme-files/1.png)
+  ![](readme-files/2.png)
+  ![](readme-files/img.png)
+  <h4>Logowanie i rejestracja do modułu śledzenia wybranych jednostek</h4>
+  ![](readme-files/img_1.png)
+  ![](readme-files/img_2.png)
+<img src="https://github.com/Harry29-exe/Monitorowanie-jednostek-morskich/readme-files/img2.png"width="100px">
+  ![](readme-files/img_3.png)
+  <h4>Dodanie statków do śledzenia</h4>
+  ![](readme-files/img_4.png)
+  ![](readme-files/img_5.png)
   
+
+
 <h2>Jak zainstalować</h2>
   <h3>Uwagi</h3>
     <ul>
