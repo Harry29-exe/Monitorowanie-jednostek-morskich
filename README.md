@@ -47,6 +47,7 @@
   ![](readme-files/img_9.png)
 
   <h5>Stan aplikacji po godzinie</h5>
+
   ![](readme-files/img_10.png)
 
   ![](readme-files/img_11.png)
