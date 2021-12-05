@@ -7,7 +7,7 @@
 
   <h3>Poniżej znajdują się prezentacja aplikacji w formie filmu oraz zdjęć z opisem gdzie zdjęcia to stop-klatki z filmu</h3>
   <h3>Prezentacja w formi filmiku:</h3>
-  [![Film pokazujący instalacje](https://img.youtube.com/vi/BK5z3Z429Fk/0.jpg)](https://www.youtube.com/watch?v=BK5z3Z429Fk)
+    [![Film pokazujący instalacje](https://img.youtube.com/vi/BK5z3Z429Fk/0.jpg)](https://www.youtube.com/watch?v=BK5z3Z429Fk)
   <h3>Prezentacja w formie zdjęć z opisem</h3>
   
 <h2>Jak zainstalować</h2>
