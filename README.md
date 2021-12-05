@@ -4,8 +4,11 @@
   <span>
     Aplikacja pozwala na monitorowanie położenia statków w okół wybrzerza norwegii (na podstawie danych udostępnionych przez API BarentsWatch). Użytkownik aplikacji ma również możliwość rejestracji oraz logowania dzięki czemu uzyskuje możliwość do włączenia śledzenia wybranych przez niego statków.
   </span>
-  
-  
+
+  <h3>Poniżej znajdują się prezentacja aplikacji w formie filmu oraz zdjęć z opisem gdzie zdjęcia to stop-klatki z filmu</h3>
+  <h3>Prezentacja w formi filmiku:</h3>
+  [![Film pokazujący instalacje](https://img.youtube.com/vi/BK5z3Z429Fk/0.jpg)](https://www.youtube.com/watch?v=BK5z3Z429Fk)
+  <h3>Prezentacja w formie zdjęć z opisem</h3>
   
 <h2>Jak zainstalować</h2>
   <h3>Uwagi</h3>
@@ -59,7 +62,7 @@
 
     #Kopjujemy niniejsze repozytorim do dowolnego folderu
     git clone https://github.com/Harry29-exe/Monitorowanie-jednostek-morskich
-
+  
     #Wchodzimy do folderu z backendem aplikcji</br>
     cd Monitorowanie-jednostek-morskich/backend/postgres
     #budujemy oraz uruchamiamy bazę danych
@@ -67,7 +70,7 @@
     sudo docker run -p 5432:5432 -d --name mjm-db mjm-db;
     
     #budujemy oraz uruchamiamy aplikację
-	  sudo docker build ./ --tag mjm;
+      sudo docker build ./ --tag mjm;
     sudo docker run -p 8080:8080 -e secret=<secret> -e clientId=<client> --net=host --name mjm mjm
 
   </span>
