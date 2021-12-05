@@ -6,24 +6,55 @@
   </span>
 
   <h3>Poniżej znajdują się prezentacja aplikacji w formie filmu oraz zdjęć z opisem gdzie zdjęcia to stop-klatki z filmu</h3>
-  <h3>Prezentacja w formi filmiku:</h3>
+  <h3>Prezentacja w formie filmiku:</h3>
   
   [![Film pokazujący instalacje](https://img.youtube.com/vi/BK5z3Z429Fk/0.jpg)](https://www.youtube.com/watch?v=BK5z3Z429Fk)
   <h3>Prezentacja w formie zdjęć z opisem</h3>
   <h4>Moduł monitorowania pozycji statków</h4>
+
   ![](readme-files/1.png)
+
   ![](readme-files/2.png)
+
   ![](readme-files/img.png)
+
   <h4>Logowanie i rejestracja do modułu śledzenia wybranych jednostek</h4>
+
   ![](readme-files/img_1.png)
-  ![](readme-files/img_2.png)
-<img src="https://github.com/Harry29-exe/Monitorowanie-jednostek-morskich/readme-files/img2.png"width="100px">
-  ![](readme-files/img_3.png)
+
+  <p align="center">
+    <img src="https://github.com/Harry29-exe/Monitorowanie-jednostek-morskich/blob/master/readme-files/img_2.png?raw=true" width="300px" alt="">
+  </p>
+
+  <p align="center">
+    <img src="https://github.com/Harry29-exe/Monitorowanie-jednostek-morskich/blob/master/readme-files/img_3.png?raw=true" width="300px" alt="">
+  </p>
+
   <h4>Dodanie statków do śledzenia</h4>
+
   ![](readme-files/img_4.png)
+
   ![](readme-files/img_5.png)
   
+  ![](readme-files/img_7.png)
 
+  <h4>Obserwacja wyników śledzenia</h4>
+
+  ![](readme-files/img_8.png)
+  <h5>Za statkiem pojawił się "ogonek" jest to trasa jaką do tej pory pokonał</h5>
+  ![](readme-files/img_9.png)
+
+  <h5>Stan aplikacji po godzinie</h5>
+  ![](readme-files/img_10.png)
+  <p align="center">
+    <img src="https://github.com/Harry29-exe/Monitorowanie-jednostek-morskich/blob/master/readme-files/img_11.png?raw=true" width="300px" alt="">
+  </p>
+  <p align="center">
+    <img src="https://github.com/Harry29-exe/Monitorowanie-jednostek-morskich/blob/master/readme-files/img_12.png?raw=true" width="300px" alt="">
+  </p>
+  <p align="center">
+    <img src="https://github.com/Harry29-exe/Monitorowanie-jednostek-morskich/blob/master/readme-files/img_13.png?raw=true" width="300px" alt="">
+  </p>
 
 <h2>Jak zainstalować</h2>
   <h3>Uwagi</h3>
@@ -44,7 +75,7 @@
   <h3>Sposób 1 (dla systemów z obługą bash'a)</h3>
   <h4>Wymagania</h4>
   <ul>
-    <li>zainstalowany doker</li>
+    <li>zainstalowany i uruchomiony doker</li>
     <li>system obługujący bash</li>
   </ul>
   <h4>Filmik pokazujący poniższe instrukcje: https://youtu.be/luM0zmKOpQ4</h4>
@@ -67,7 +98,7 @@
   <h3>Sposób 2 (dla pozostalych)</h3>
   <h4>Wymagania</h4>
   <ul>
-    <li>zainstalowany doker</li>
+    <li>zainstalowany i uruchomiony doker</li>
   </ul>
   <h4>Filmik pokazujący poniższe instrukcje: https://youtu.be/luM0zmKOpQ4</h4>
   
