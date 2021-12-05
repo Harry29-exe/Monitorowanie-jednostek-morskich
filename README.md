@@ -42,19 +42,38 @@
 
   ![](readme-files/img_8.png)
   <h5>Za statkiem pojawił się "ogonek" jest to trasa jaką do tej pory pokonał</h5>
+
   ![](readme-files/img_9.png)
 
   <h5>Stan aplikacji po godzinie</h5>
   ![](readme-files/img_10.png)
-  <p align="center">
-    <img src="https://github.com/Harry29-exe/Monitorowanie-jednostek-morskich/blob/master/readme-files/img_11.png?raw=true" width="300px" alt="">
-  </p>
-  <p align="center">
-    <img src="https://github.com/Harry29-exe/Monitorowanie-jednostek-morskich/blob/master/readme-files/img_12.png?raw=true" width="300px" alt="">
-  </p>
-  <p align="center">
-    <img src="https://github.com/Harry29-exe/Monitorowanie-jednostek-morskich/blob/master/readme-files/img_13.png?raw=true" width="300px" alt="">
-  </p>
+
+  ![](readme-files/img_11.png)
+
+  ![](readme-files/img_12.png)
+
+  ![](readme-files/img_13.png)
+
+  <h5>Oraz po około 4 godzinach</h5>
+
+  ![](readme-files/img_14.png)
+
+  ![](readme-files/img_15.png)
+
+  ![](readme-files/img_16.png)
+
+  ![](readme-files/img_17.png)
+
+  ![](readme-files/img_18.png)
+  
+  ![](readme-files/img_19.png)
+
+  ![](readme-files/img_20.png)
+
+  <h4>Aplikacja umożliwia dodatkowo</h4>
+
+
+
 
 <h2>Jak zainstalować</h2>
   <h3>Uwagi</h3>
