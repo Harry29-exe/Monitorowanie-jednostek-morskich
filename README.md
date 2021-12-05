@@ -5,7 +5,8 @@
     Aplikacja pozwala na monitorowanie położenia statków w okół wybrzerza norwegii (na podstawie danych udostępnionych przez API BarentsWatch). Użytkownik aplikacji ma również możliwość rejestracji oraz logowania dzięki czemu uzyskuje możliwość do włączenia śledzenia wybranych przez niego statków.
   </span>
 
-  <h3>Poniżej znajdują się prezentacja aplikacji w formie filmu oraz zdjęć z opisem gdzie zdjęcia to stop-klatki z filmu</h3>
+  <h3>Poniżej znajdują się prezentacja aplikacji w formie filmu oraz zdjęć 
+  z opisem</h3>
   <h3>Prezentacja w formie filmiku:</h3>
   
   [![Film pokazujący instalacje](https://img.youtube.com/vi/BK5z3Z429Fk/0.jpg)](https://www.youtube.com/watch?v=BK5z3Z429Fk)
@@ -70,8 +71,22 @@
 
   ![](readme-files/img_20.png)
 
-  <h4>Aplikacja umożliwia dodatkowo</h4>
+  <h4>Aplikacja umożliwia dodatkowo:</h4>
+  <h5>Wyświetlenie lokalizacji danego statku w formie listy</h5>
 
+  ![](readme-files/img_21.png)
+
+  ![](readme-files/img_22.png)
+
+  <h5>Usuniecie danego statku z listy śledzonych jednostek</h5>
+
+  ![](readme-files/img_23.png)
+
+  <h5>Oraz włączanie/wyłączanie wyświetlania trasy danego statku</h5>
+
+  ![](readme-files/img_24.png)
+
+  ![](readme-files/img_25.png)
 
 
 
